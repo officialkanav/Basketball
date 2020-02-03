@@ -1,41 +1,19 @@
 import React from 'react';
-import Home from './home';
-import Settings from './settings';
-import Scoreboard from './scoreboard'
-import Play from './play'
-import { createAppContainer } from 'react-navigation';
-import { createStackNavigator } from 'react-navigation-stack';
+import {View} from 'react-native'
+import AppNavigator from './appNavigator';
+import { Provider } from 'react-redux'
+import {store} from './store'
+import persist from './store'
+import { PersistGate } from 'redux-persist/lib/integration/react';
 
-const App = () => {
+export default App = () => {
   return (
-    <AppNavigator></AppNavigator>
+    <Provider store = {store}>
+      <PersistGate loading={<View />} persistor={persist}>
+        <AppNavigator></AppNavigator>
+      </PersistGate>
+    </Provider>
+    
   );
 };
-export default AppNavigator = createAppContainer(createStackNavigator({
-  Home: {
-    screen: Home
-  },
-  Setting: {
-    screen: Settings,
-    navigationOptions:{
-      headerStyle:{backgroundColor:'black'},
-      headerTitleStyle : {color:'gray'},
-      title: "Settings"
-    },
-  },
-  Scoreboard: {
-    screen: Scoreboard,
-    navigationOptions:{
-      headerStyle:{backgroundColor:'black'},
-      headerTitleStyle : {color:'gray'},
-    }
-  },
-  Play: {
-    screen: Play,
-    navigationOptions:{
-      headerStyle:{backgroundColor:'black'},
-      headerTitleStyle : {color:'gray'},
-    }
-  }
-}))
 
