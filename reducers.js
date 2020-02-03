@@ -2,8 +2,8 @@
 const initialState = {
     
     settings:{
-        ballColor: 'red',
-        ballSpeed: 5,
+        ballColor: 'green',
+        ballSpeed: 3,
         ballRadius: 5,
         basketRadius: 5,
     },
@@ -15,6 +15,7 @@ const initialState = {
   function rootReducer(state = initialState, action) {
       switch(action.type){
         case 'saveSettings' : 
+            console.log("save settings reducer!")
             return {...state, settings:action.payLoad};
         case 'saveScore' :
             let tempScore = state.scores
