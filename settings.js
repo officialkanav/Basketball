@@ -84,7 +84,12 @@ class Settings extends React.PureComponent{
                     maximumValue={10}
                     minimumTrackTintColor="#307ecc"
                     maximumTrackTintColor="#000000"
-                    onValueChange={(value)=>{this.setState({ballRadius:Math.floor(value)})}}
+                    onValueChange={(value)=>{
+                        this.setState({ballRadius:Math.floor(value)},()=>{
+                            if(this.state.ballRadius>this.state.basketRadius){
+                                this.setState({basketRadius:this.state.ballRadius})
+                            }
+                        })}}
                     value={this.state.ballRadius}
                     style = {{flex:1, marginRight:10}}
                     />
@@ -115,7 +120,7 @@ class Settings extends React.PureComponent{
                 <Slider
                     step={0.1}
                     minimumValue={this.state.ballRadius}
-                    maximumValue={11}
+                    maximumValue={10}
                     minimumTrackTintColor="#307ecc"
                     maximumTrackTintColor="#000000"
                     onValueChange={(value)=>{this.setState({basketRadius:Math.floor(value)})}}
