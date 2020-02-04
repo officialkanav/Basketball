@@ -39,14 +39,15 @@ class Settings extends React.PureComponent{
                 <TouchableOpacity style = {{backgroundColor:'gray'}}
                     onPress = {()=>{
                         let restoredSettings = {
-                            ballColor: 'green',
-                            ballSpeed: 3,
+                            color: 'green',
+                            speed: 3,
                             ballRadius: 5,
                             basketRadius: 5,
                         }
-                        let action = {type: 'saveSettings', payLoad: restoredSettings}
-                        this.props.dispatch(action)
-                        setTimeout(()=>{this.changeState()},100)
+                        this.setState({...restoredSettings})
+                        // let action = {type: 'saveSettings', payLoad: restoredSettings}
+                        // this.props.dispatch(action)
+                        // setTimeout(()=>{this.changeState()},100)
                         // this.setState({renderer:!this.state.renderer})
                     }}>
                     <Text style = {{fontSize:25, color:'black'}}>Reset</Text>
@@ -181,7 +182,7 @@ class Settings extends React.PureComponent{
 const mapStateToProps = state => {
     
     return {
-        ...state.saveReducer
+        ...state.saveSettingsReducer
     }
 }
 
