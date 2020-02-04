@@ -8,6 +8,42 @@ const initialScores = {
         {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
         {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
         {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
+        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
+        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
+        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
+        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
+        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
+        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
+        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
+        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
+        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
+        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
+
+        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
+        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
+        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
+        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
+        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
+        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
+        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
+        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
+        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
+        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
+        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
+        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
+        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
+        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
+        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
+        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
+        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
+        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
+        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
+        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
+        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
+        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
+        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
+        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
+        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
       ]
     },
   
@@ -86,7 +122,6 @@ function binarySearchDescDate(element, array, start, end) {
 
 sortByScores = ()=>{
     let tempScore = {...initialScores}
-    // let tempScore = JSON.parse(JSON.stringify(initialScores))
     SOS = tempScore.sortedOnScores
     if(SOS.type === 'asc'){
         SOS.type = 'desc'

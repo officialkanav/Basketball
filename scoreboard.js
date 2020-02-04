@@ -22,16 +22,7 @@ class Scoreboard extends React.PureComponent{
         }
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot){
-        if(prevProps!=this.props){
-            // this.setState({rerender: this.state.rerender*-1},()=>{console.log("tete changed")})
-            this.listData = []
-            this.setState({numberOfItemsInList: 0},()=>{this.getListData()})    
-        }
-    }
-
     componentDidMount(){
-
         didBlurSubscription = this.props.navigation.addListener(
             'willFocus',
             payload => {
@@ -40,6 +31,17 @@ class Scoreboard extends React.PureComponent{
               this.getListData()
             }
         )
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot){
+        
+        if(prevProps!=this.props){
+            console.log("PrevProps: "+prevProps.sortType)
+            console.log("newProps   "+this.props.sortType)
+            this.listData = []
+            this.setState({numberOfItemsInList: 0},()=>{this.getListData()})    
+        }
+
     }
 
     componentWillUnmount(){
@@ -52,9 +54,10 @@ class Scoreboard extends React.PureComponent{
             this.setState({numberOfItemsInList: this.state.numberOfItemsInList+25},()=>{this.setState({rerender:this.state.rerender*-1})})
         }
         else if(this.state.numberOfItemsInList == this.props.data[this.props.sortType].scores.length){
-
         }
         else{
+            console.log("sortType inside: "+this.props.sortType)
+            console.log("list:"+JSON.stringify(this.listData))
             this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.props.data[this.props.sortType].length))
             this.setState({numberOfItemsInList: this.props.data[this.props.sortType].scores.length},()=>{this.setState({rerender:this.state.rerender*-1})})
         }
@@ -73,13 +76,10 @@ class Scoreboard extends React.PureComponent{
 
     onPressScoreCallback = ()=>{
         this.props.dispatch({type:'sortByScores'})
-        this.setState({rerender:this.state.rerender*-1})
     }
 
     onPressDateCallback = ()=>{
         this.props.dispatch({type:'sortByDate'})
-        this.setState({sortType:'sortedOnDate'})
-        this.setState({rerender:this.state.rerender*-1})
     }
 
     getList = ()=>{
@@ -150,7 +150,7 @@ class Scoreboard extends React.PureComponent{
 const mapStateToProps = state => {
     return {
         sortType: state.scoreReducer.sortType,
-        data: state.scoreReducer
+        data: state.scoreReducer,
     }
 }
 
