@@ -7,13 +7,14 @@ import persist from './store'
 import { PersistGate } from 'redux-persist/lib/integration/react';
 
 export default App = () => {
+  console.disableYellowBox = true;
   return (
-    <Provider store = {store}>
-      <PersistGate loading={<View />} persistor={persist}>
+    <Provider store = {persist}>
+    {/* <Provider store = {store}> */}
+      {/* <PersistGate loading={<View />} persistor={persist}> */}
         <AppNavigator></AppNavigator>
-      </PersistGate>
-    </Provider>
-    
+      {/* </PersistGate> */}
+    </Provider>  
   );
 };
 

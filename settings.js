@@ -46,7 +46,7 @@ class Settings extends React.PureComponent{
                         }
                         let action = {type: 'saveSettings', payLoad: restoredSettings}
                         this.props.dispatch(action)
-                        setInterval(()=>{this.changeState()},100)
+                        setTimeout(()=>{this.changeState()},100)
                         // this.setState({renderer:!this.state.renderer})
                     }}>
                     <Text style = {{fontSize:25, color:'black'}}>Reset</Text>
@@ -181,7 +181,7 @@ class Settings extends React.PureComponent{
 const mapStateToProps = state => {
     
     return {
-        ...state.settings
+        ...state.saveReducer
     }
 }
 
