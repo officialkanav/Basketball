@@ -1,5 +1,5 @@
 const initialScores = {
-
+    sortType:'sortedOnScores',
     sortedOnScores: {
       type: 'desc',
       scores: [
@@ -84,16 +84,45 @@ function binarySearchDescDate(element, array, start, end) {
     
 }
 
+sortByScores = ()=>{
+    let tempScore = {...initialScores}
+    // let tempScore = JSON.parse(JSON.stringify(initialScores))
+    SOS = tempScore.sortedOnScores
+    if(SOS.type === 'asc'){
+        SOS.type = 'desc'
+    }
+    else{
+        SOS.type = 'asc'
+    }
+    SOS.scores = SOS.scores.reverse()
+    tempScore.sortedOnScores = SOS;  
+    tempScore.sortType = 'sortedOnScores' 
+    return tempScore
+}
+
+sortByDate = ()=>{
+    let tempScore = {...initialScores}
+    SOD = tempScore.sortedOnDate
+    if(SOD.type === 'asc'){
+        SOD.type = 'desc'
+    }
+    else{
+        SOD.type = 'asc'
+    }
+    SOD.scores = SOD.scores.reverse()
+    tempScore.sortedOnDate = SOD;   
+    tempScore.sortType = 'sortedOnDate' 
+    return tempScore
+}
+
 export default function scoreReducer(state = initialScores, action){
     switch(action.type){
-        case 'sortByName':
-            let tempData = state.scores
-            break;
+        case 'sortByScores':
+            return sortByScores()
         case 'sortByDate':
-            break;
+            return sortByDate()
         case 'saveScore':
-
-    
+        return null
     } 
     return state;
   }
