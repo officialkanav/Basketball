@@ -41,8 +41,8 @@ class Settings extends React.PureComponent{
                         let restoredSettings = {
                             color: 'green',
                             speed: 3,
-                            ballRadius: 5,
-                            basketRadius: 5,
+                            ballRadius: 3,
+                            basketRadius: 3,
                         }
                         this.setState({...restoredSettings})
                         // let action = {type: 'saveSettings', payLoad: restoredSettings}
@@ -70,6 +70,7 @@ class Settings extends React.PureComponent{
                     <Picker.Item label="black" value="black" />
                     <Picker.Item label="green" value="green" />
                     <Picker.Item label="blue" value="blue" />
+                    <Picker.Item label="red" value="red" />
                 </Picker>
             </View>
         )
@@ -82,7 +83,7 @@ class Settings extends React.PureComponent{
                 <Slider
                     step={0.1}
                     minimumValue={1}
-                    maximumValue={10}
+                    maximumValue={5}
                     minimumTrackTintColor="#307ecc"
                     maximumTrackTintColor="#000000"
                     onValueChange={(value)=>{
@@ -101,7 +102,7 @@ class Settings extends React.PureComponent{
 
     setBallSpeed = ()=>{
         return(
-            <View style = {{flexDirection:'row', marginTop:80}}>
+            <View style = {{flexDirection:'row', marginTop:75}}>
                 <Text style = {{fontSize:20}}>Speed: </Text>
                 <TouchableOpacity style = {{marginLeft:110}} onPress = {()=>{this.setState({speed:(this.state.speed-1)>0?this.state.speed-1:1})}}>
                     <Text style = {{fontSize:40}}> -  </Text>
@@ -120,8 +121,8 @@ class Settings extends React.PureComponent{
                 <Text style = {{fontSize:20}}>basketRadius: </Text>
                 <Slider
                     step={0.1}
-                    minimumValue={this.state.ballRadius}
-                    maximumValue={10}
+                    minimumValue={1}
+                    maximumValue={5}
                     minimumTrackTintColor="#307ecc"
                     maximumTrackTintColor="#000000"
                     onValueChange={(value)=>{this.setState({basketRadius:Math.floor(value)})}}
@@ -156,7 +157,7 @@ class Settings extends React.PureComponent{
 
     render(){
         return(
-            <View style = {{flex:1, backgroundColor:'gray'}}>
+            <View style = {{flex:1, backgroundColor:'white'}}>
                 {/* reset */}
                 {this.getResetButton()}
 

@@ -1,8 +1,8 @@
 const initialSettings = {
     ballColor: 'green',
     ballSpeed: 3,
-    ballRadius: 5,
-    basketRadius: 5
+    ballRadius: 3,
+    basketRadius: 3
 }
 
 export default function saveReducer(state = initialSettings, action) {
