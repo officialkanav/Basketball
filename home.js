@@ -45,7 +45,7 @@ export default class Home extends React.PureComponent{
                 alignItems:'center', justifyContent:'center'}} onPress = {()=>{this.props.navigation.push(text)}}>
 
                 <Text style = {{color:'white',fontSize:40,fontWeight:'500', height:75, 
-                    width:200,textAlign:'center'}}>{text}</Text>
+                    width:250,textAlign:'center'}}>{text}</Text>
                     
             </TouchableOpacity>
         )

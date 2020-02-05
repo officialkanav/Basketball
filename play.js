@@ -5,23 +5,53 @@ import {
     Animated,
     Text,
     TouchableOpacity,
-    LayoutAnimation,UIManager
+    LayoutAnimation,UIManager,
+    Dimensions,
+    PanResponder
 } from 'react-native'
 import { connect } from 'react-redux';
 
 class Play extends React.PureComponent{
     constructor(props){
+
+        super(props)
+
         if (Platform.OS === 'android') {
             if (UIManager.setLayoutAnimationEnabledExperimental) {
               UIManager.setLayoutAnimationEnabledExperimental(true);
             }
           }
-        super(props)
+        
         this.state = {
             timer: 60,
             score: 0,
-            animator: new Animated.Value(0)
+            animator: new Animated.Value(0),
+            panX: new Animated.Value(Dimensions.get('window').width/2.2)
         }
+
+        this.panHandler = PanResponder.create({
+            onStartShouldSetPanResponder: (evt, gestureState) => true,
+            onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+            onMoveShouldSetPanResponder: (evt, gestureState) => true,
+            onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+            
+            onPanResponderGrant(e, gestureState){
+                
+            },
+            onPanResponderMove: 
+                // (e, gestureState)=>{Animated.event([null, {gestureState.dx: this.state.panX}])}
+                Animated.event([null, {moveX: this.state.panX}])
+            ,
+        
+            onPanResponderRelease: (evt, gestureState) => {
+            //   alert(gestureState.moveX)
+                if(gestureState.moveX<4)
+                    this.state.panX.setValue(4)
+                if(gestureState.moveX>Dimensions.get('window').width/1.2)
+                    this.state.panX.setValue(Dimensions.get('window').width/1.2)
+            },
+            
+          })
     }
     componentDidMount(){
         this.startTimer()
@@ -47,6 +77,38 @@ class Play extends React.PureComponent{
             }
         },1000)
     }
+    
+    interpolateSpeed = ()=>{
+        if(this.props.ballSpeed<=3)
+            return (4-this.props.ballSpeed);
+        return 0.75
+    }
+
+    startAnimation = ()=>{
+        Animated.timing(this.state.panX,{
+            toValue: Dimensions.get('window').width/2.2, 
+            duration:1000*this.interpolateSpeed()
+        }).start()
+        Animated.timing(this.state.animator, {
+            toValue: 1.5,
+            duration: 1000*this.interpolateSpeed()
+            }).start()
+        setTimeout(()=>{
+            Animated.spring(this.state.animator, {
+            toValue: 2,
+            duration: 2000*this.interpolateSpeed(),
+            damping:5
+            }).start()},1000*this.interpolateSpeed())
+        setTimeout(()=>{
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+            this.setState({animator: new Animated.Value(0)})
+            }
+        ,2000*this.interpolateSpeed())
+    }
+
+    shoot = ()=>{
+        this.startAnimation()
+    }
 
     getBall = ()=>{
         const top = this.state.animator.interpolate({
@@ -54,30 +116,10 @@ class Play extends React.PureComponent{
             outputRange: [600,130,400]
         })
         return(
-            <Animated.View style = {{backgroundColor:this.props.ballColor, borderRadius:10*this.props.ballRadius, height:this.calculateBallRadius(), width:this.calculateBallRadius(), position:'absolute',left:'45%', top}}/>        
+            <Animated.View {...this.panHandler.panHandlers} style = {{backgroundColor:this.props.ballColor, borderRadius:10*this.props.ballRadius, height:this.calculateBallRadius(), width:this.calculateBallRadius(), position:'absolute',left:this.state.panX, top}}/>        
         )
     }
 
-    startAnimation = ()=>{
-        Animated.timing(this.state.animator, {
-            toValue: 1.5,
-            duration: 1000
-            }).start()
-        setTimeout(()=>{
-            Animated.spring(this.state.animator, {
-            toValue: 2,
-            duration: 2000,
-            damping:5
-            }).start()},1000)
-        setTimeout(()=>{
-            LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-            this.setState({animator: new Animated.Value(0)})
-            }
-        ,3000)
-    }
-    shoot = ()=>{
-        this.startAnimation()
-    }
     calculateBallRadius = ()=>{
         initradius = this.props.ballRadius
         const radius = this.state.animator.interpolate({
@@ -101,11 +143,11 @@ class Play extends React.PureComponent{
                     <Text style = {{fontSize:25, position:'absolute', left:310}}>Score: {this.state.score}</Text>
                 </View>
                 {/* basket */}
-                <Image style = {{alignSelf:'center', height:350,width:this.calculateBasketRadius(), marginTop:50}} source = {{uri:'https://cdn.clipart.email/367e47979d6a07e53dd467da14c64888_basketball-ring-with-stand-clipart-clipartxtras_331-550.jpeg'}}></Image>
+                <Image style = {{marginLeft:20, alignSelf:'center', height:350,width:this.calculateBasketRadius(), marginTop:50}} source = {{uri:'https://cdn.clipart.email/367e47979d6a07e53dd467da14c64888_basketball-ring-with-stand-clipart-clipartxtras_331-550.jpeg'}}></Image>
                 {/* ball */}
                 {this.getBall()}
                 {/* button */}
-                <TouchableOpacity style = {{alignSelf:'center',justifyContent:'center', alignItems:'center', backgroundColor:'black', height:50, width:100, borderRadius:15, position:'absolute', top:720}}
+                <TouchableOpacity style = {{alignSelf:'center', alignItems:'center', backgroundColor:'black', height:50, width:100, borderRadius:15, position:'absolute', top:720, left:Dimensions.get('window').width/2.5}}
                     onPress = {()=>{this.shoot()}}>
                     <Text style = {{fontSize:35, color:'white'}}>Shoot</Text>
                 </TouchableOpacity>

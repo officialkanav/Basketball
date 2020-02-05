@@ -39,8 +39,8 @@ class Settings extends React.PureComponent{
                 <TouchableOpacity style = {{backgroundColor:'gray'}}
                     onPress = {()=>{
                         let restoredSettings = {
-                            color: 'green',
-                            speed: 3,
+                            color: 'red',
+                            speed: 2,
                             ballRadius: 3,
                             basketRadius: 3,
                         }
@@ -58,8 +58,8 @@ class Settings extends React.PureComponent{
 
     setBallColor = ()=>{
         return(
-            <View style = {{flexDirection:'row'}}>
-                <Text style = {{marginTop:100,fontSize:20}}>ballColor: </Text>
+            <View style = {{marginTop:65, flexDirection:'row'}}>
+                <Text style = {{marginTop:10,fontSize:20}}>ballColor: </Text>
                 <Picker
                     selectedValue={this.state.color}
                     style={{flex:1}}
@@ -78,7 +78,7 @@ class Settings extends React.PureComponent{
 
     setBallRadius = ()=>{
         return(
-            <View style = {{flexDirection:'row'}}>
+            <View style = {{marginTop:65,flexDirection:'row'}}>
                 <Text style = {{fontSize:20}}>ballRadius: </Text>
                 <Slider
                     step={0.1}
@@ -108,7 +108,7 @@ class Settings extends React.PureComponent{
                     <Text style = {{fontSize:40}}> -  </Text>
                 </TouchableOpacity>
                 <Text style = {{fontSize:40}}>{this.state.speed}</Text>
-                <TouchableOpacity onPress = {()=>{this.setState({speed:(this.state.speed+1)<6?this.state.speed+1:5})}}>
+                <TouchableOpacity onPress = {()=>{this.setState({speed:(this.state.speed+1)<5?this.state.speed+1:4})}}>
                     <Text style = {{fontSize:40}}> +  </Text>
                 </TouchableOpacity>
             </View>
@@ -125,7 +125,14 @@ class Settings extends React.PureComponent{
                     maximumValue={5}
                     minimumTrackTintColor="#307ecc"
                     maximumTrackTintColor="#000000"
-                    onValueChange={(value)=>{this.setState({basketRadius:Math.floor(value)})}}
+                    onValueChange={(value)=>{
+                        value = Math.floor(value)
+                        if(value>=this.state.ballRadius)
+                            this.setState({basketRadius:value})
+                        else{
+                            this.setState({ballRadius:value,basketRadius:value})
+                        }
+                        }}
                     value={this.state.basketRadius}
                     style = {{flex:1}}
                     />

@@ -1,6 +1,6 @@
 const initialSettings = {
-    ballColor: 'green',
-    ballSpeed: 3,
+    ballColor: 'red',
+    ballSpeed: 2,
     ballRadius: 3,
     basketRadius: 3
 }
