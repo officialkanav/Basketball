@@ -5,45 +5,6 @@ const initialScores = {
       scores: [
         {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
         {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
-        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
-        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
-        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
-        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
-        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
-        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
-        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
-        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
-        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
-        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
-        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
-        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
-        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
-
-        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
-        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
-        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
-        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
-        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
-        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
-        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
-        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
-        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
-        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
-        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
-        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
-        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
-        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
-        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
-        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
-        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
-        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
-        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
-        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
-        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
-        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
-        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
-        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
-        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
       ]
     },
   
@@ -52,12 +13,8 @@ const initialScores = {
       scores: [
         {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
         {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
-        {name: 'Kanav',score: 42, dateAndTime: '1580810122',unixTime:'1580810122'},
-        {name: 'Ankit',score: 41, dateAndTime: '1580810123',unixTime:'1580810123'},
-        {name: 'Kanav',score: 40, dateAndTime: '1580810124',unixTime:'1580810124'},
       ]
     }
-  
   };
   
 function binarySearchAscScore(element, array, start, end) {
@@ -120,8 +77,8 @@ function binarySearchDescDate(element, array, start, end) {
     
 }
 
-sortByScores = ()=>{
-    let tempScore = {...initialScores}
+sortByScores = (state)=>{
+    let tempScore = {...state}
     SOS = tempScore.sortedOnScores
     if(SOS.type === 'asc'){
         SOS.type = 'desc'
@@ -135,8 +92,8 @@ sortByScores = ()=>{
     return tempScore
 }
 
-sortByDate = ()=>{
-    let tempScore = {...initialScores}
+sortByDate = (state)=>{
+    let tempScore = {...state}
     SOD = tempScore.sortedOnDate
     if(SOD.type === 'asc'){
         SOD.type = 'desc'
@@ -150,14 +107,46 @@ sortByDate = ()=>{
     return tempScore
 }
 
+saveDate = (scoreObject, type, scores)=>{
+    if(type == 'asc'){
+        let loc = binarySearchAscDate(scoreObject.unixTime, scores, 0, scores.length)
+        scores.splice(loc + 1, 0, scoreObject);
+        return scores
+    }
+    else{
+        let loc = binarySearchDescDate(scoreObject.unixTime, scores, 0, scores.length)
+        scores.splice((loc - 1>=0?loc-1:0), 0, scoreObject);
+        return scores
+    }
+}
+
+saveScore = (scoreObject, type, scores)=>{
+    if(type == 'asc'){
+        let loc = binarySearchAscScore(scoreObject.score, scores, 0, scores.length)
+        scores.splice(loc + 1, 0, scoreObject);
+        return scores
+    }
+    else{
+        let loc = binarySearchDescScore(scoreObject.unixTime, scores, 0, scores.length)
+        scores.splice((loc - 1>=0?loc-1:0), 0, scoreObject);
+        return scores
+    }
+}
+
+saveScoreInTwo = (state,scoreObject)=>{
+    state.sortedOnDate.scores = saveDate(scoreObject,state.sortedOnDate.type,state.sortedOnDate.scores)
+    state.sortedOnScores.scores = saveScore(scoreObject,state.sortedOnScores.type,state.sortedOnScores.scores)
+    return state
+}
+
 export default function scoreReducer(state = initialScores, action){
     switch(action.type){
         case 'sortByScores':
-            return sortByScores()
+            return sortByScores(state)
         case 'sortByDate':
-            return sortByDate()
+            return sortByDate(state)
         case 'saveScore':
-        return null
+            return saveScoreInTwo(state,action.payLoad)
     } 
     return state;
   }

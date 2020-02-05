@@ -1,12 +1,12 @@
 import React from 'react';
 import {
     View,
-    Text,
-    TouchableOpacity,
-    FlatList,
+    TextInput,
+    Button
 } from 'react-native'
+import { connect } from 'react-redux';
 
-export default class Play extends React.PureComponent{
+class Play extends React.PureComponent{
     constructor(props){
         super(props)
         this.state = {
@@ -22,3 +22,11 @@ export default class Play extends React.PureComponent{
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+
+    }
+}
+
+export default higherOrderFirst = connect()(Play)

@@ -18,7 +18,6 @@ class Scoreboard extends React.PureComponent{
         super(props)
         this.state = {
             numberOfItemsInList: 0,
-            // rerender:1
         }
     }
 
@@ -46,18 +45,6 @@ class Scoreboard extends React.PureComponent{
         didBlurSubscription.remove();
     }
 
-    // getListData = ()=>{
-    //     if(this.state.numberOfItemsInList+25 < this.props.data[this.props.sortType].scores.length){
-    //         this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+25))
-    //         this.setState({numberOfItemsInList: this.state.numberOfItemsInList+25},()=>{this.setState({rerender:this.state.rerender*-1})})
-    //     }
-    //     else if(this.state.numberOfItemsInList == this.props.data[this.props.sortType].scores.length){
-    //     }
-    //     else{
-    //         this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.props.data[this.props.sortType].length))
-    //         this.setState({numberOfItemsInList: this.props.data[this.props.sortType].scores.length},()=>{this.setState({rerender:this.state.rerender*-1})})
-    //     }
-    // }
     getListData = ()=>{
         if(this.state.numberOfItemsInList+25 < this.props.data[this.props.sortType].scores.length){
             this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+25))
