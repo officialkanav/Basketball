@@ -18,7 +18,7 @@ class Scoreboard extends React.PureComponent{
         super(props)
         this.state = {
             numberOfItemsInList: 0,
-            rerender:1
+            // rerender:1
         }
     }
 
@@ -36,8 +36,6 @@ class Scoreboard extends React.PureComponent{
     componentDidUpdate(prevProps, prevState, snapshot){
         
         if(prevProps!=this.props){
-            console.log("PrevProps: "+prevProps.sortType)
-            console.log("newProps   "+this.props.sortType)
             this.listData = []
             this.setState({numberOfItemsInList: 0},()=>{this.getListData()})    
         }
@@ -48,18 +46,28 @@ class Scoreboard extends React.PureComponent{
         didBlurSubscription.remove();
     }
 
+    // getListData = ()=>{
+    //     if(this.state.numberOfItemsInList+25 < this.props.data[this.props.sortType].scores.length){
+    //         this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+25))
+    //         this.setState({numberOfItemsInList: this.state.numberOfItemsInList+25},()=>{this.setState({rerender:this.state.rerender*-1})})
+    //     }
+    //     else if(this.state.numberOfItemsInList == this.props.data[this.props.sortType].scores.length){
+    //     }
+    //     else{
+    //         this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.props.data[this.props.sortType].length))
+    //         this.setState({numberOfItemsInList: this.props.data[this.props.sortType].scores.length},()=>{this.setState({rerender:this.state.rerender*-1})})
+    //     }
+    // }
     getListData = ()=>{
         if(this.state.numberOfItemsInList+25 < this.props.data[this.props.sortType].scores.length){
             this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+25))
-            this.setState({numberOfItemsInList: this.state.numberOfItemsInList+25},()=>{this.setState({rerender:this.state.rerender*-1})})
+            this.setState({numberOfItemsInList: this.state.numberOfItemsInList+25})
         }
         else if(this.state.numberOfItemsInList == this.props.data[this.props.sortType].scores.length){
         }
         else{
-            console.log("sortType inside: "+this.props.sortType)
-            console.log("list:"+JSON.stringify(this.listData))
             this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.props.data[this.props.sortType].length))
-            this.setState({numberOfItemsInList: this.props.data[this.props.sortType].scores.length},()=>{this.setState({rerender:this.state.rerender*-1})})
+            this.setState({numberOfItemsInList: this.props.data[this.props.sortType].scores.length})
         }
     }
 
@@ -89,7 +97,7 @@ class Scoreboard extends React.PureComponent{
                 <FlatList 
                     
                     data = {this.listData} 
-                    extraData = {this.state.rerender}
+                    extraData = {this.props.sortType}
                     showsVerticalScrollIndicator = {false}
                     
                     renderItem = {({item})=>{
