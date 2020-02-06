@@ -2,6 +2,7 @@ import Home from './home';
 import Settings from './settings';
 import Scoreboard from './scoreboard'
 import Play from './play'
+import Modal from './Modal'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
@@ -30,7 +31,8 @@ export default AppNavigator = createAppContainer(createStackNavigator({
         headerStyle:{backgroundColor:'black'},
         headerTitleStyle : {color:'gray'},
       }
-    }
+    },
+
   }))
   
   

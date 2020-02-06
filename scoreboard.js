@@ -91,14 +91,14 @@ class Scoreboard extends React.PureComponent{
                         return(
                             <View>
                                 <View style = {{flex:1, flexDirection:'row'}}>
-                                    <View style = {{flex:1}}>
-                                        <Text style = {{fontSize:35, alignSelf:'center'}}>{item.name}</Text>
+                                    <View style = {{flex:1, justifyContent:'center'}}>
+                                        <Text style = {{fontSize:22, alignSelf:'center', alignText:'center'}}>{item.name}</Text>
                                     </View>
                                     <View style = {{flex:1}}>
                                         <Text style = {{fontSize:35, alignSelf:'center'}}>{item.score}</Text>
                                     </View>
                                     <View style = {{flex:1}}>
-                                        <Text style = {{fontSize:25, alignSelf:'center'}}>{item.dateAndTime}</Text>
+                                        <Text style = {{fontSize:22, alignSelf:'center'}}>{item.dateAndTime}</Text>
                                     </View>
                                     </View>
                                 <View style = {{height:2, width:'100%', backgroundColor:'black'}}></View>
@@ -126,7 +126,7 @@ class Scoreboard extends React.PureComponent{
                     <View style = {{flex:1, height:40, flexDirection:'row'}}>
                         {this.getHeadings("Name",()=>{})}
                         {this.getHeadings("Score", this.onPressScoreCallback)}
-                        {this.getHeadings("Date & Time", this.onPressDateCallback)}
+                        {this.getHeadings("Date / Time", this.onPressDateCallback)}
                     </View>
                 </View>
 

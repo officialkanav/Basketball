@@ -194,4 +194,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default higherOrderFirst = connect(mapStateToProps)(Settings)
+export default connect(mapStateToProps)(Settings)
