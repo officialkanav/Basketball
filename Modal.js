@@ -18,13 +18,19 @@ class CustomModal extends React.PureComponent{
         }
     }
 
+    componentWillUnmount(){
+        this.fetchDate()
+    }
+
     fetchDate = ()=>{
         fetch('http://worldtimeapi.org/api/timezone/Asia/Kolkata')
             .then((response) => response.json())
             .then((responseJson) => {
                 
                 dateAndTime = responseJson.datetime.split('T')
-                dateTime = dateAndTime[0] + " / " + dateAndTime[1].slice(0,5)
+                date = dateAndTime[0].split('-')
+                date = date[2]+'-'+date[1]+'-'+date[0]
+                dateTime = date + " / " + dateAndTime[1].slice(0,8)
 
                 dateObject = {
                     name: this.state.name,
@@ -34,6 +40,7 @@ class CustomModal extends React.PureComponent{
                 }
 
                 this.props.dispatch({type:'saveScore',payLoad:dateObject})
+                
                 return dateObject;
             })
             .catch((error) => {
@@ -47,8 +54,7 @@ class CustomModal extends React.PureComponent{
             alert("Name please")
         }
         else{
-            // fetching date
-            this.fetchDate()
+            // fetching date 
             this.props.navigation.navigate('Home')
         }
     }
@@ -60,6 +66,7 @@ class CustomModal extends React.PureComponent{
                 transparent={false}
                 visible={this.props.modalVisible}
                 onRequestClose={() => {
+                    alert('Press Submit')
                 }}
                 presentationStyle='overFullScreen'
                 >

@@ -3,16 +3,14 @@ const initialScores = {
     sortedOnScores: {
       type: 'desc',
       scores: [
-        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
-        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
+          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'2020-02-06/18:40:48'}
       ]
     },
   
     sortedOnDate: {
       type: 'asc',
       scores: [
-        {name: 'Kanav',score: 44, dateAndTime: '1580810120',unixTime:'1580810120'},
-        {name: 'Ankit',score: 43, dateAndTime: '1580810121',unixTime:'1580810121'},
+        {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'2020-02-06/18:40:48'}
       ]
     }
   };
@@ -108,29 +106,55 @@ sortByDate = (state)=>{
 }
 
 saveDate = (scoreObject, type, scores)=>{
+
     if(type == 'asc'){
         let loc = binarySearchAscDate(scoreObject.unixTime, scores, 0, scores.length)
-        scores.splice(loc + 1, 0, scoreObject);
+        if(scores[loc].unixTime>=scoreObject.unixTime){
+            scores.splice(loc, 0, scoreObject);
+        }
+        else{
+            scores.splice(loc + 1, 0, scoreObject);
+        }
         return scores
     }
     else{
         let loc = binarySearchDescDate(scoreObject.unixTime, scores, 0, scores.length)
-        scores.splice((loc - 1>=0?loc-1:0), 0, scoreObject);
+        if(scores[loc].unixTime>scoreObject.unixTime){
+            scores.splice(loc + 1, 0, scoreObject);
+        }
+        else{
+            scores.splice((loc), 0, scoreObject);
+        }
         return scores
     }
+
 }
 
 saveScore = (scoreObject, type, scores)=>{
+    
     if(type == 'asc'){
         let loc = binarySearchAscScore(scoreObject.score, scores, 0, scores.length)
-        scores.splice(loc + 1, 0, scoreObject);
+        if(scores[loc].score>=scoreObject.score){
+            scores.splice(loc, 0, scoreObject);
+        }
+        else{
+            scores.splice(loc + 1, 0, scoreObject);
+        }
         return scores
     }
     else{
-        let loc = binarySearchDescScore(scoreObject.unixTime, scores, 0, scores.length)
-        scores.splice((loc - 1>=0?loc-1:0), 0, scoreObject);
+        let loc = binarySearchDescScore(scoreObject.score, scores, 0, scores.length)
+
+        if(scores[loc].score>scoreObject.score){
+            scores.splice(loc + 1, 0, scoreObject);
+        }
+        else{
+            scores.splice((loc), 0, scoreObject);
+        }
+        console.log(JSON.stringify(scores[loc]))
         return scores
     }
+    return scores
 }
 
 saveScoreInTwo = (state,scoreObject)=>{

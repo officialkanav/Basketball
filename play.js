@@ -15,7 +15,6 @@ import CustomModal from './Modal'
 const middle = Dimensions.get('window').width/2.2
 class Play extends React.PureComponent{
     constructor(props){
-
         super(props)
 
         if (Platform.OS === 'android') {
@@ -25,7 +24,7 @@ class Play extends React.PureComponent{
           }
         
         this.state = {
-            timer: 1,
+            timer: 5,
             score: 0,
             animator: new Animated.Value(0),
             panX: new Animated.Value(middle),

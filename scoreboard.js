@@ -20,8 +20,9 @@ class Scoreboard extends React.PureComponent{
             numberOfItemsInList: 0,
         }
     }
-
+    
     componentDidMount(){
+        // alert(JSON.stringify(this.props.data))
         didBlurSubscription = this.props.navigation.addListener(
             'willFocus',
             payload => {
@@ -46,9 +47,9 @@ class Scoreboard extends React.PureComponent{
     }
 
     getListData = ()=>{
-        if(this.state.numberOfItemsInList+25 < this.props.data[this.props.sortType].scores.length){
-            this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+25))
-            this.setState({numberOfItemsInList: this.state.numberOfItemsInList+25})
+        if(this.state.numberOfItemsInList+10 < this.props.data[this.props.sortType].scores.length){
+            this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+10))
+            this.setState({numberOfItemsInList: this.state.numberOfItemsInList+10})
         }
         else if(this.state.numberOfItemsInList == this.props.data[this.props.sortType].scores.length){
         }
