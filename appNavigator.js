@@ -15,7 +15,8 @@ export default AppNavigator = createAppContainer(createStackNavigator({
       navigationOptions:{
         headerStyle:{backgroundColor:'black'},
         headerTitleStyle : {color:'gray'},
-        title: "Settings"
+        title: "Settings",
+        headerTintColor: 'gray',
       },
     },
     Scoreboard: {
@@ -23,6 +24,7 @@ export default AppNavigator = createAppContainer(createStackNavigator({
       navigationOptions:{
         headerStyle:{backgroundColor:'black'},
         headerTitleStyle : {color:'gray'},
+        headerTintColor: 'gray',
       }
     },
     Play: {
@@ -30,6 +32,7 @@ export default AppNavigator = createAppContainer(createStackNavigator({
       navigationOptions:{
         headerStyle:{backgroundColor:'black'},
         headerTitleStyle : {color:'gray'},
+        headerTintColor: 'gray',
       }
     },
 

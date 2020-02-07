@@ -26,7 +26,7 @@ class Play extends React.PureComponent{
           }
         
         this.state = {
-            timer: 100,
+            timer: 15,
             score: 0,
             animator: new Animated.Value(0),
             panX: new Animated.Value(middle),
