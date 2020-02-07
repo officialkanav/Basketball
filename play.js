@@ -114,7 +114,7 @@ class Play extends React.PureComponent{
             toValue: 1.5,
             duration: 1000*interpolationFactor
             }).start()
-        setTimeout(()=>{this.setState({zIndex:1})},900*interpolationFactor)
+        setTimeout(()=>{this.setState({zIndex:1})},800*interpolationFactor)
         setTimeout(()=>{
             Animated.spring(this.state.animator, {
             toValue: 2,
@@ -170,13 +170,11 @@ class Play extends React.PureComponent{
             outputRange: [600,130,400]
         })
         return(
-            <ImageBackground style = {{position:'absolute', height:1000,width:10,zIndex:-1}}>
                 <Animated.View {...this.panHandler.panHandlers} style = {{backgroundColor:this.props.ballColor
                 , borderRadius:10*this.props.ballRadius, 
                 height:this.calculateBallRadius(), width:this.calculateBallRadius(), 
                 position:'absolute',left:this.state.panX, top,
-                }}/>  
-            </ImageBackground>      
+                }}/>   
         )
     }
 
@@ -215,11 +213,10 @@ class Play extends React.PureComponent{
                     <Text style = {{fontSize:25, position:'absolute', left:310}}>Score: {this.state.score}</Text>
                 </View>
                 {/* basket */}
-                {/* <Image style = {{alignSelf:'center', height:350,width:this.calculateBasketRadius(), marginTop:50}} source = {{uri:'https://cdn.clipart.email/367e47979d6a07e53dd467da14c64888_basketball-ring-with-stand-clipart-clipartxtras_331-550.jpeg'}}></Image> */}
                 <ImageBackground style = {{zIndex:-1, alignSelf:'center', height:200,width:300, marginTop:50}} source = {require('./court.jpg')}>
                 </ImageBackground>
                 <View style = {{backgroundColor:'red', zIndex:this.state.zIndex, alignSelf:'center', position:'absolute',top:270,borderRadius:10, height:10,width:this.calculateBasketRadius(), marginTop:0}}></View>
-                <Image source = {require('./stand.jpeg')} style = {{zIndex:-1, height:270, width:30, alignSelf:'center'}}></Image>
+                <Image source = {require('./stand.jpeg')} style = {{zIndex:-1, height:150, width:30, alignSelf:'center'}}></Image>
                 {/* ball */}
                 {this.getBall()}
                 {/* button */}
