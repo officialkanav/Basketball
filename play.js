@@ -65,12 +65,9 @@ class Play extends React.PureComponent{
           })
     }
 
-    componentWillMount(){
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
-    }
-
     componentDidMount(){
         this.startTimer()
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
 
     componentWillUnmount() {
@@ -106,21 +103,26 @@ class Play extends React.PureComponent{
 
     startWinAnimation = ()=>{
         const interpolationFactor = this.interpolateSpeed()
+
         Animated.timing(this.state.panX,{
             toValue: middle, 
             duration:1000*interpolationFactor
         }).start()
+
         Animated.timing(this.state.animator, {
             toValue: 1.5,
             duration: 1000*interpolationFactor
             }).start()
-        setTimeout(()=>{this.setState({zIndex:1})},900*interpolationFactor)
+
+        setTimeout(()=>{this.setState({zIndex:1})},800*interpolationFactor)
+
         setTimeout(()=>{
             Animated.spring(this.state.animator, {
             toValue: 2,
             duration: 2000*interpolationFactor,
             damping:5
             }).start()},1000*interpolationFactor)
+
         setTimeout(()=>{
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
             this.setState({animator: new Animated.Value(0), currentX:middle},()=>{this.setState({score:this.state.score+1, zIndex:-1})})    
@@ -157,7 +159,6 @@ class Play extends React.PureComponent{
 
     shoot = ()=>{
         this.setState({prevX:this.state.currentX})
-        console.log("currX: "+this.state.currentX+" ,prevX: "+this.state.prevX)
         if(this.result() == 'won')
             this.startWinAnimation()
         else
@@ -207,21 +208,23 @@ class Play extends React.PureComponent{
 
     render(){
         return(
-            <View style = {{flex:1, backgroundColor:'white'}}>
+            <View style = {{flex:1, backgroundColor:'steelblue'}}>
                 <CustomModal modalVisible = {this.state.modalVisible} score = {this.state.score} />
                 {/* timer and score */}
                 <View style = {{flexDirection:'row'}}>
                     <Text style = {{fontSize:35, merginLeft:10}}>{this.state.timer}</Text>
                     <Text style = {{fontSize:25, position:'absolute', left:310}}>Score: {this.state.score}</Text>
                 </View>
+                
                 {/* basket */}
-                {/* <Image style = {{alignSelf:'center', height:350,width:this.calculateBasketRadius(), marginTop:50}} source = {{uri:'https://cdn.clipart.email/367e47979d6a07e53dd467da14c64888_basketball-ring-with-stand-clipart-clipartxtras_331-550.jpeg'}}></Image> */}
                 <ImageBackground style = {{zIndex:-1, alignSelf:'center', height:200,width:300, marginTop:50}} source = {require('./court.jpg')}>
                 </ImageBackground>
                 <View style = {{backgroundColor:'red', zIndex:this.state.zIndex, alignSelf:'center', position:'absolute',top:270,borderRadius:10, height:10,width:this.calculateBasketRadius(), marginTop:0}}></View>
-                <Image source = {require('./stand.jpeg')} style = {{zIndex:-1, height:270, width:30, alignSelf:'center'}}></Image>
+                <Image source = {require('./stand.jpeg')} style = {{zIndex:-1, height:170, width:30, alignSelf:'center'}}></Image>
+                
                 {/* ball */}
                 {this.getBall()}
+                
                 {/* button */}
                 <TouchableOpacity style = {{alignSelf:'center', alignItems:'center', backgroundColor:'black', height:50, width:100, borderRadius:15, position:'absolute', top:720, left:Dimensions.get('window').width/2.5}}
                     disabled = {this.state.prevX == this.state.currentX?true:false}

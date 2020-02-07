@@ -135,7 +135,7 @@ class Scoreboard extends React.PureComponent{
                 <View style = {{height:2, width:'100%', backgroundColor:'black'}}></View>
 
                 {/* FlatList */}
-                <View style = {{flex:1, backgroundColor:'white'}}>
+                <View style = {{flex:1, backgroundColor:'steelblue'}}>
                     {this.getList()}
                 </View>
             </View>

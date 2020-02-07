@@ -53,7 +53,6 @@ export default class Home extends React.PureComponent{
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
-        didBlurSubscription.removeEventListener()
     }
 
     handleBackButtonClick = ()=>{
@@ -81,7 +80,7 @@ export default class Home extends React.PureComponent{
 
     render(){
         return(
-            <View style = {{flex:1, backgroundColor:'white', alignItems:'center'}}>
+            <View style = {{flex:1, backgroundColor:'steelblue', alignItems:'center'}}>
                 <View style = {{marginTop:250}}>{this.getButton("Play")}</View>
                 <View style = {{marginTop:100}}>{this.getButton("Scoreboard")}</View>
             </View>

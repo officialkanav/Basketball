@@ -164,7 +164,7 @@ class Settings extends React.PureComponent{
 
     render(){
         return(
-            <View style = {{flex:1, backgroundColor:'white'}}>
+            <View style = {{flex:1, backgroundColor:'steelblue'}}>
                 {/* reset */}
                 {this.getResetButton()}
 

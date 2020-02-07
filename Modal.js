@@ -87,7 +87,7 @@ class CustomModal extends React.PureComponent{
                 presentationStyle='overFullScreen'
                 >
 
-                <View style = {{backgroundColor:'white', flex:1}}>
+                <View style = {{backgroundColor:'steelblue', flex:1}}>
                     <View style = {{alignItems:'center',marginTop:100}}>
                         <Text style = {{fontSize:40}}>Game Over!</Text>
                     </View>
