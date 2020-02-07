@@ -3,7 +3,7 @@ const initialScores = {
     sortedOnScores: {
       type: 'desc',
       scores: [
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'2020-02-06/18:40:48'}
+          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'}
       ]
     },
   

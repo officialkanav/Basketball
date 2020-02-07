@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     TouchableHighlight,
     Image,
+    BackHandler
   } from 'react-native';
 
 export default class Home extends React.PureComponent{
@@ -13,6 +14,7 @@ export default class Home extends React.PureComponent{
         this.state = {
 
         }
+        this.backCounter = 0
     }
     static navigationOptions = ({navigation})=>{
         return(
@@ -39,10 +41,36 @@ export default class Home extends React.PureComponent{
         )
     }
     
+    componentWillMount(){
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+        didBlurSubscription = this.props.navigation.addListener(
+            'willFocus',
+            payload => {
+              this.backCounter = 0
+            }
+        )
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+        didBlurSubscription.removeEventListener()
+    }
+
+    handleBackButtonClick = ()=>{
+        console.log("Hi, counter:"+this.backCounter)
+        if(this.backCounter == 0){
+            alert("Press back again to exit app")
+            this.backCounter = 1
+            return true;
+        }
+
+        return false
+    }
+
     getButton = (text)=>{
         return(
             <TouchableOpacity style = {{borderRadius:30,width:350,backgroundColor:'black', 
-                alignItems:'center', justifyContent:'center'}} onPress = {()=>{this.props.navigation.push(text)}}>
+                alignItems:'center', justifyContent:'center'}} onPress = {()=>{this.backCounter = 1; this.props.navigation.push(text)}}>
 
                 <Text style = {{color:'white',fontSize:40,fontWeight:'500', height:75, 
                     width:250,textAlign:'center'}}>{text}</Text>

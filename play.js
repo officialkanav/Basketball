@@ -7,7 +7,9 @@ import {
     TouchableOpacity,
     LayoutAnimation,UIManager,
     Dimensions,
-    PanResponder
+    BackHandler,
+    PanResponder,
+    ImageBackground
 } from 'react-native'
 import { connect } from 'react-redux';
 import CustomModal from './Modal'
@@ -24,17 +26,20 @@ class Play extends React.PureComponent{
           }
         
         this.state = {
-            timer: 5,
+            timer: 100,
             score: 0,
             animator: new Animated.Value(0),
             panX: new Animated.Value(middle),
             animationTweek: 1,
+            currentX: middle,
             modalVisible: false,
+            prevX: -1000,
+            zIndex:-1
         }
 
         this.threshold = 50
-        this.currentX = middle
-        
+        this.backCount = 0
+
         this.panHandler = PanResponder.create({
             onStartShouldSetPanResponder: (evt, gestureState) => true,
             onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
@@ -54,17 +59,32 @@ class Play extends React.PureComponent{
                     this.state.panX.setValue(4)
                 if(gestureState.moveX>Dimensions.get('window').width/1.2)
                     this.state.panX.setValue(Dimensions.get('window').width/1.2)
-                this.currentX = gestureState.moveX
-                console.log(this.currentX)
+                this.setState({currentX:gestureState.moveX})
             },
             
           })
+    }
+
+    componentWillMount(){
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
 
     componentDidMount(){
         this.startTimer()
     }
 
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    handleBackButtonClick = ()=>{
+        if(this.backCount == 0){
+            alert("Press back again to exit game")
+            this.backCount = 1
+            return true;
+        }
+        return false
+    }
 
     startTimer = ()=>{
         let cd = setInterval(()=>{
@@ -85,30 +105,32 @@ class Play extends React.PureComponent{
     }
 
     startWinAnimation = ()=>{
+        const interpolationFactor = this.interpolateSpeed()
         Animated.timing(this.state.panX,{
             toValue: middle, 
-            duration:1000*this.interpolateSpeed()
+            duration:1000*interpolationFactor
         }).start()
         Animated.timing(this.state.animator, {
             toValue: 1.5,
-            duration: 1000*this.interpolateSpeed()
+            duration: 1000*interpolationFactor
             }).start()
+        setTimeout(()=>{this.setState({zIndex:1})},900*interpolationFactor)
         setTimeout(()=>{
             Animated.spring(this.state.animator, {
             toValue: 2,
-            duration: 2000*this.interpolateSpeed(),
+            duration: 2000*interpolationFactor,
             damping:5
-            }).start()},1000*this.interpolateSpeed())
+            }).start()},1000*interpolationFactor)
         setTimeout(()=>{
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-            this.setState({animator: new Animated.Value(0)},()=>{this.setState({score:this.state.score+1})})
-            }
-        ,2000*this.interpolateSpeed())
+            this.setState({animator: new Animated.Value(0), currentX:middle},()=>{this.setState({score:this.state.score+1, zIndex:-1})})    
+        }
+        ,2000*interpolationFactor)
     }
 
     startLosingAnimation = ()=>{
         let direction = null
-        if(this.currentX<165)
+        if(this.state.currentX<165)
             direction = 100
         else    
             direction = 250   
@@ -128,17 +150,18 @@ class Play extends React.PureComponent{
             }).start()},1000*this.interpolateSpeed())
         setTimeout(()=>{
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-            this.setState({animator: new Animated.Value(0)})
+            this.setState({animator: new Animated.Value(0), currentX:direction})
             }
         ,2000*this.interpolateSpeed())
     }
 
     shoot = ()=>{
+        this.setState({prevX:this.state.currentX})
+        console.log("currX: "+this.state.currentX+" ,prevX: "+this.state.prevX)
         if(this.result() == 'won')
             this.startWinAnimation()
         else
             this.startLosingAnimation()
-        this.currentX = 165
     }
 
     getBall = ()=>{
@@ -147,7 +170,13 @@ class Play extends React.PureComponent{
             outputRange: [600,130,400]
         })
         return(
-            <Animated.View {...this.panHandler.panHandlers} style = {{backgroundColor:this.props.ballColor, borderRadius:10*this.props.ballRadius, height:this.calculateBallRadius(), width:this.calculateBallRadius(), position:'absolute',left:this.state.panX, top}}/>        
+            <ImageBackground style = {{position:'absolute', height:1000,width:10,zIndex:-1}}>
+                <Animated.View {...this.panHandler.panHandlers} style = {{backgroundColor:this.props.ballColor
+                , borderRadius:10*this.props.ballRadius, 
+                height:this.calculateBallRadius(), width:this.calculateBallRadius(), 
+                position:'absolute',left:this.state.panX, top,
+                }}/>  
+            </ImageBackground>      
         )
     }
 
@@ -161,11 +190,11 @@ class Play extends React.PureComponent{
     }
 
     calculateBasketRadius = ()=>{
-        return(60 * this.props.basketRadius)
+        return(40 * this.props.basketRadius)
     }
 
     result = ()=>{
-        value = Math.abs(this.currentX - 165)
+        value = Math.abs(this.state.currentX - middle)
         value = value * this.props.ballSpeed
         value = value / this.props.basketRadius
         if(value<this.threshold){
@@ -186,11 +215,16 @@ class Play extends React.PureComponent{
                     <Text style = {{fontSize:25, position:'absolute', left:310}}>Score: {this.state.score}</Text>
                 </View>
                 {/* basket */}
-                <Image style = {{alignSelf:'center', height:350,width:this.calculateBasketRadius(), marginTop:50}} source = {{uri:'https://cdn.clipart.email/367e47979d6a07e53dd467da14c64888_basketball-ring-with-stand-clipart-clipartxtras_331-550.jpeg'}}></Image>
+                {/* <Image style = {{alignSelf:'center', height:350,width:this.calculateBasketRadius(), marginTop:50}} source = {{uri:'https://cdn.clipart.email/367e47979d6a07e53dd467da14c64888_basketball-ring-with-stand-clipart-clipartxtras_331-550.jpeg'}}></Image> */}
+                <ImageBackground style = {{zIndex:-1, alignSelf:'center', height:200,width:300, marginTop:50}} source = {require('./court.jpg')}>
+                </ImageBackground>
+                <View style = {{backgroundColor:'red', zIndex:this.state.zIndex, alignSelf:'center', position:'absolute',top:270,borderRadius:10, height:10,width:this.calculateBasketRadius(), marginTop:0}}></View>
+                <Image source = {require('./stand.jpeg')} style = {{zIndex:-1, height:270, width:30, alignSelf:'center'}}></Image>
                 {/* ball */}
                 {this.getBall()}
                 {/* button */}
                 <TouchableOpacity style = {{alignSelf:'center', alignItems:'center', backgroundColor:'black', height:50, width:100, borderRadius:15, position:'absolute', top:720, left:Dimensions.get('window').width/2.5}}
+                    disabled = {this.state.prevX == this.state.currentX?true:false}
                     onPress = {()=>{this.shoot()}}>
                     <Text style = {{fontSize:35, color:'white'}}>Shoot</Text>
                 </TouchableOpacity>

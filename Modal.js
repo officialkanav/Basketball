@@ -4,7 +4,8 @@ import {
     Text,
     Modal,
     TouchableOpacity,
-    TextInput
+    TextInput,
+    AppState
 } from 'react-native'
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -18,9 +19,23 @@ class CustomModal extends React.PureComponent{
         }
     }
 
-    componentWillUnmount(){
-        this.fetchDate()
+
+    componentDidMount() {
+        AppState.addEventListener('change', 
+        this.handleAppStateChange);
+       }
+     
+    componentWillUnmount() {
+        AppState.removeEventListener('change', this.handleAppStateChange);
     }
+    
+    handleAppStateChange = (nextAppState) => {
+        if (nextAppState === 'inactive') {
+            this.fetchDate()
+            this.props.navigation.navigate('Home')
+        }    
+    }
+     
 
     fetchDate = ()=>{
         fetch('http://worldtimeapi.org/api/timezone/Asia/Kolkata')
@@ -55,6 +70,7 @@ class CustomModal extends React.PureComponent{
         }
         else{
             // fetching date 
+            this.fetchDate()
             this.props.navigation.navigate('Home')
         }
     }
