@@ -8,7 +8,7 @@ import {
     Text,
   } from 'react-native';
 import { connect } from 'react-redux';
-
+import {initialSettings} from './saveSettingsReducer'
 class Settings extends React.PureComponent{
     constructor(props){
         super(props)
@@ -45,6 +45,8 @@ class Settings extends React.PureComponent{
                             basketRadius: 3,
                         }
                         this.setState({...restoredSettings})
+                        let action = {type: 'saveSettings', payLoad: initialSettings}
+                        this.props.dispatch(action)
                         this.props.navigation.navigate('Dashboard')
                     }}>
                     <Text style = {{fontSize:25, color:'black'}}>Reset</Text>
@@ -68,7 +70,7 @@ class Settings extends React.PureComponent{
                     <Picker.Item label="green" value="green" />
                     <Picker.Item label="blue" value="blue" />
                     <Picker.Item label="red" value="red" />
-                    <Picker.Item label="brown" value="brown" />
+                    <Picker.Item label="gray" value="gray" />
                 </Picker>
             </View>
         )

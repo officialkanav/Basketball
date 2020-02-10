@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 
 class Scoreboard extends React.PureComponent{
 
+    listData = [{name:'',score:'',dateAndTime:''}]
     didBlurSubscription = null
     
     constructor(props){
@@ -24,13 +25,37 @@ class Scoreboard extends React.PureComponent{
         didBlurSubscription = this.props.navigation.addListener(
             'willFocus',
             payload => {
+              this.listData = []
               this.setState({numberOfItemsInList: 0})
+              this.getListData()
             }
         )
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot){
+        
+        if(prevProps!=this.props){
+            this.listData = []
+            this.setState({numberOfItemsInList: 0},()=>{this.getListData()})    
+        }
+
+    }
+
     componentWillUnmount(){
         didBlurSubscription.remove();
+    }
+
+    getListData = ()=>{
+        if(this.state.numberOfItemsInList+10 < this.props.data[this.props.sortType].scores.length){
+            this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+10))
+            this.setState({numberOfItemsInList: this.state.numberOfItemsInList+10})
+        }
+        else if(this.state.numberOfItemsInList == this.props.data[this.props.sortType].scores.length){
+        }
+        else{
+            this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.props.data[this.props.sortType].length))
+            this.setState({numberOfItemsInList: this.props.data[this.props.sortType].scores.length})
+        }
     }
 
     getHeadings = (name, onPressCallback)=>{
@@ -58,24 +83,23 @@ class Scoreboard extends React.PureComponent{
             <View>
                 <FlatList 
                     
-                    data = {this.props.data[this.props.sortType].scores} 
-                    extraData = {this.props.sortType, this.state.numberOfItemsInList}
+                    data = {this.listData} 
+                    extraData = {this.props.sortType,this.state.numberOfItemsInList}
                     showsVerticalScrollIndicator = {false}
-                    maxToRenderPerBatch = {10}
-
+                    
                     renderItem = {({item})=>{
                         return(
                             <View>
                                 <View style = {{flex:1, flexDirection:'row'}}>
                                     <View style = {{flex:1, justifyContent:'center'}}>
-                                        <Text style = {{fontSize:27, alignSelf:'center', alignText:'center'}}>{item.name}</Text>
+                                        <Text style = {{fontSize:30, alignSelf:'center', alignText:'center'}}>{item.name}</Text>
                                     </View>
                                     <View style = {{flex:1, justifyContent:'center'}}>
-                                        <Text style = {{fontSize:40, alignSelf:'center'}}>{item.score}</Text>
+                                        <Text style = {{fontSize:45, alignSelf:'center'}}>{item.score}</Text>
                                     </View>
                                     <View style = {{flex:1, justifyContent:'center'}}>
-                                        <Text style = {{fontSize:27, alignSelf:'center'}}>{item.dateAndTime.split('/')[0]}</Text>
-                                        <Text style = {{fontSize:27, alignSelf:'center'}}>{item.dateAndTime.split('/')[1]}</Text>
+                                        <Text style = {{fontSize:25, alignSelf:'center'}}>{item.dateAndTime.split('/')[0]}</Text>
+                                        <Text style = {{fontSize:33, alignSelf:'center'}}>{item.dateAndTime.split('/')[1]}</Text>
                                     </View>
                                     </View>
                                 <View style = {{height:2, width:'100%', backgroundColor:'black'}}></View>
@@ -83,7 +107,13 @@ class Scoreboard extends React.PureComponent{
                         )
                     }}
                     
-                    onEndReachedThreshold = {0}
+                    onEndReachedThreshold = {0.00001}
+
+                    onEndReached={() => {
+                        // setTimeout(()=>{this.getListData()},100)
+                        this.getListData()
+                        }
+                    }
                 />
             </View>
         )
