@@ -110,7 +110,7 @@ class Play extends React.PureComponent{
     }
 
     calculateBasketRadius = ()=>{
-        return(40 * this.props.basketRadius)
+        return(30 * this.props.basketRadius)
     }
 
     result = ()=>{
@@ -229,7 +229,7 @@ class Play extends React.PureComponent{
 
     render(){
         return(
-            <View style = {{flex:1, backgroundColor:'orange'}}>
+            <View style = {{flex:1, backgroundColor:'#EE891D'}}>
                 {/* Modal */}
                 <CustomModal modalVisible = {this.state.modalVisible} score = {this.state.score} />
                

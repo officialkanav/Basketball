@@ -5,7 +5,8 @@ import {
     TouchableOpacity,
     TouchableHighlight,
     Image,
-    BackHandler
+    BackHandler,
+    ImageBackground
   } from 'react-native';
 
 export default class Home extends React.PureComponent{
@@ -59,7 +60,6 @@ export default class Home extends React.PureComponent{
     }
 
     handleBackButtonClick = ()=>{
-        console.log("Hi, counter:"+this.backCounter)
         if(this.backCounter == 0){
             alert("Press again to exit!")
             this.backCounter = 1
@@ -71,21 +71,25 @@ export default class Home extends React.PureComponent{
 
     getButton = (text)=>{
         return(
-            <TouchableOpacity style = {{borderRadius:30,width:350,backgroundColor:'black', 
+            <TouchableOpacity style = {{borderRadius:30,width:150,height:50,backgroundColor:'black', 
                 alignItems:'center', justifyContent:'center'}} onPress = {()=>{this.backCounter = 1; this.props.navigation.push(text)}}>
 
-                <Text style = {{color:'white',fontSize:40,fontWeight:'500', height:75, 
-                    width:250,textAlign:'center'}}>{text}</Text>     
+                <Text style = {{color:'white',fontSize:20,fontWeight:'500',textAlign:'center'}}>{text}</Text>     
             </TouchableOpacity>
         )
     }
 
     render(){
         return(
-            <View style = {{flex:1, backgroundColor:'orange', alignItems:'center'}}>
-                <View style = {{marginTop:250}}>{this.getButton("Play")}</View>
-                <View style = {{marginTop:100}}>{this.getButton("Scoreboard")}</View>
+            <View style = {{flex:1, backgroundColor:'#EE891D', alignItems:'center'}}>
+                <ImageBackground source = {{uri:'https://images.assetsdelivery.com/compings_v2/lar01joka/lar01joka1506/lar01joka150600363.jpg'}} style = {{height:500, width: 500, alignSelf:'center'}}>
+                </ImageBackground>
+                <View style = {{ flexDirection:'row'}}>
+                    <View style = {{marginTop:100, marginRight:20}}>{this.getButton("Play")}</View>
+                    <View style = {{marginTop:100, marginLeft:20}}>{this.getButton("Scoreboard")}</View>
+                </View>
             </View>
+            
         )
     }
 }

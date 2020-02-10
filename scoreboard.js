@@ -11,17 +11,19 @@ import { connect } from 'react-redux';
 
 class Scoreboard extends React.PureComponent{
 
-    listData = [{name:'',score:'',dateAndTime:''}]
+    // listData = [{name:'',score:'',dateAndTime:''}]
     didBlurSubscription = null
     
     constructor(props){
         super(props)
+        this.listData = []
         this.state = {
             numberOfItemsInList: 0,
         }
     }
     
     componentDidMount(){
+        this.getListData()
         didBlurSubscription = this.props.navigation.addListener(
             'willFocus',
             payload => {
@@ -98,8 +100,8 @@ class Scoreboard extends React.PureComponent{
                                         <Text style = {{fontSize:45, alignSelf:'center'}}>{item.score}</Text>
                                     </View>
                                     <View style = {{flex:1, justifyContent:'center'}}>
-                                        <Text style = {{fontSize:25, alignSelf:'center'}}>{item.dateAndTime.split('/')[0]}</Text>
-                                        <Text style = {{fontSize:33, alignSelf:'center'}}>{item.dateAndTime.split('/')[1]}</Text>
+                                        <Text style = {{fontSize:24, alignSelf:'center'}}>{item.dateAndTime.split('/')[0]}</Text>
+                                        <Text style = {{fontSize:32, alignSelf:'center'}}>{item.dateAndTime.split('/')[1]}</Text>
                                     </View>
                                     </View>
                                 <View style = {{height:2, width:'100%', backgroundColor:'black'}}></View>
@@ -107,7 +109,7 @@ class Scoreboard extends React.PureComponent{
                         )
                     }}
                     
-                    onEndReachedThreshold = {0.00001}
+                    onEndReachedThreshold = {0.2}
 
                     onEndReached={() => {
                         // setTimeout(()=>{this.getListData()},100)
@@ -136,7 +138,7 @@ class Scoreboard extends React.PureComponent{
                 <View style = {{height:2, width:'100%', backgroundColor:'black'}}></View>
 
                 {/* FlatList */}
-                <View style = {{flex:1, backgroundColor:'orange'}}>
+                <View style = {{flex:1, backgroundColor:'#EE891D'}}>
                     {this.getList()}
                 </View>
             </View>

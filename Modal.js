@@ -19,11 +19,9 @@ class CustomModal extends React.PureComponent{
         }
     }
 
-
     componentDidMount() {
-        AppState.addEventListener('change', 
-        this.handleAppStateChange);
-       }
+        AppState.addEventListener('change', this.handleAppStateChange);
+    }
      
     componentWillUnmount() {
         AppState.removeEventListener('change', this.handleAppStateChange);
@@ -32,10 +30,9 @@ class CustomModal extends React.PureComponent{
     handleAppStateChange = (nextAppState) => {
         if (nextAppState === 'inactive') {
             this.fetchDate()
-            this.props.navigation.navigate('Home')
+            this.props.navigation.navigate('Dashboard')
         }    
     }
-     
 
     fetchDate = ()=>{
         fetch('http://worldtimeapi.org/api/timezone/Asia/Kolkata')
@@ -45,7 +42,7 @@ class CustomModal extends React.PureComponent{
                 dateAndTime = responseJson.datetime.split('T')
                 date = dateAndTime[0].split('-')
                 date = date[2]+'-'+date[1]+'-'+date[0]
-                dateTime = date + " / " + dateAndTime[1].slice(0,8)
+                dateTime = date + "/" + dateAndTime[1].slice(0,8)
 
                 dateObject = {
                     name: this.state.name,
@@ -55,7 +52,6 @@ class CustomModal extends React.PureComponent{
                 }
 
                 this.props.dispatch({type:'saveScore',payLoad:dateObject})
-                
                 return dateObject;
             })
             .catch((error) => {
@@ -63,19 +59,50 @@ class CustomModal extends React.PureComponent{
             });
             }
 
-    submitOnPress = (navigation)=>{
-        
+    submitOnPress = ()=>{
         if(this.state.name.length == 0){
             alert("Name please")
         }
         else{
-            // fetching date 
             this.fetchDate()
             this.props.navigation.navigate('Dashboard')
         }
     }
 
+    getPlaceholder = ()=>{
+        return(
+            <View style = {{ marginTop:100, alignItems:'center'}}>
+                <TextInput
+                    style={{ borderRadius:10, fontSize:35, height: 70, width: 280, borderColor: 'black', borderWidth: 1 }}
+                    placeholder = "Enter Name"
+                    onChangeText={text => {text.length<=18?this.setState({name:text}):null}}
+                    value={this.state.name}
+                    />
+            </View>
+        )
+    }
+    
+    getScore = ()=>{
+        return(
+            <View style = {{alignItems:'center',marginTop:100}}>
+                <Text style = {{fontSize:40}}>Your Score Is: {this.props.score}</Text>
+            </View>
+        )
+    }
+
+    getSubmitButton = ()=>{
+        return(
+            <View style = {{alignItems:'center',marginTop:100}}>
+                <TouchableOpacity style = {{backgroundColor:'black', borderRadius:10}}
+                    onPress = {this.submitOnPress}>
+                    <Text style = {{color:'white', fontSize:40}}>Submit</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
     render(){
+
         return(
             <Modal
                 animationType="slide"
@@ -87,27 +114,18 @@ class CustomModal extends React.PureComponent{
                 presentationStyle='overFullScreen'
                 >
 
-                <View style = {{backgroundColor:'orange', flex:1}}>
+                <View style = {{backgroundColor:'#EE891D', flex:1}}>
+
                     <View style = {{alignItems:'center',marginTop:100}}>
                         <Text style = {{fontSize:40}}>Game Over!</Text>
                     </View>
-                    <View style = {{ marginTop:100, alignItems:'center'}}>
-                        <TextInput
-                            style={{ borderRadius:10, fontSize:35, height: 70, width: 280, borderColor: 'black', borderWidth: 1 }}
-                            placeholder = "Enter Name"
-                            onChangeText={text => {text.length<=18?this.setState({name:text}):null}}
-                            value={this.state.name}
-                            />
-                    </View>
-                    <View style = {{alignItems:'center',marginTop:100}}>
-                        <Text style = {{fontSize:40}}>Your Score Is: {this.props.score}</Text>
-                    </View>
-                    <View style = {{alignItems:'center',marginTop:100}}>
-                        <TouchableOpacity style = {{backgroundColor:'black', borderRadius:10}}
-                            onPress = {this.submitOnPress}>
-                            <Text style = {{color:'white', fontSize:40}}>Submit</Text>
-                        </TouchableOpacity>
-                    </View>
+
+                    {this.getPlaceholder()}
+
+                    {this.getScore()}
+
+                    {this.getSubmitButton()}
+
                 </View>
 
             </Modal>

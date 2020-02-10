@@ -272,13 +272,12 @@ saveScore = (scoreObject, type, scores)=>{
         console.log(JSON.stringify(scores[loc]))
         return scores
     }
-    return scores
 }
 
 saveScoreInTwo = (state,scoreObject)=>{
     state.sortedOnDate.scores = saveDate(scoreObject,state.sortedOnDate.type,state.sortedOnDate.scores)
     state.sortedOnScores.scores = saveScore(scoreObject,state.sortedOnScores.type,state.sortedOnScores.scores)
-    return state
+    return {...state}
 }
 
 export default function scoreReducer(state = initialScores, action){
