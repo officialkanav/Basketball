@@ -45,6 +45,7 @@ class Settings extends React.PureComponent{
                             basketRadius: 3,
                         }
                         this.setState({...restoredSettings})
+                        this.props.navigation.navigate('Dashboard')
                     }}>
                     <Text style = {{fontSize:25, color:'black'}}>Reset</Text>
                 </TouchableOpacity>
