@@ -29,9 +29,11 @@ export default class Home extends React.PureComponent{
                 
                 headerRight : ()=>(
                         <View style = {{flex:1}}>
-                            <TouchableHighlight onPress = {()=>{navigation.push('Setting',{
-                                cBack: ()=>{ self.timerCallback() } 
-                            })}}>
+                            <TouchableHighlight onPress = {()=>{
+                                this.backCounter = 1;
+                                navigation.push('Setting',{
+                                    cBack: ()=>{ self.timerCallback() } 
+                                })}}>
                                 <Image source = {{uri:'https://static.vecteezy.com/system/resources/previews/000/331/341/large_2x/vector-setting-icon.jpg'}}
                                 style = {{height:30, width: 30, marginTop: 10}}></Image>
                             </TouchableHighlight>
@@ -53,12 +55,13 @@ export default class Home extends React.PureComponent{
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+        // didBlurSubscription.removeEventListener()
     }
 
     handleBackButtonClick = ()=>{
         console.log("Hi, counter:"+this.backCounter)
         if(this.backCounter == 0){
-            alert("Press back again to exit app")
+            alert("Press again to exit!")
             this.backCounter = 1
             return true;
         }
@@ -72,15 +75,14 @@ export default class Home extends React.PureComponent{
                 alignItems:'center', justifyContent:'center'}} onPress = {()=>{this.backCounter = 1; this.props.navigation.push(text)}}>
 
                 <Text style = {{color:'white',fontSize:40,fontWeight:'500', height:75, 
-                    width:250,textAlign:'center'}}>{text}</Text>
-                    
+                    width:250,textAlign:'center'}}>{text}</Text>     
             </TouchableOpacity>
         )
     }
 
     render(){
         return(
-            <View style = {{flex:1, backgroundColor:'steelblue', alignItems:'center'}}>
+            <View style = {{flex:1, backgroundColor:'orange', alignItems:'center'}}>
                 <View style = {{marginTop:250}}>{this.getButton("Play")}</View>
                 <View style = {{marginTop:100}}>{this.getButton("Scoreboard")}</View>
             </View>

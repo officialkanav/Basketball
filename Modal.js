@@ -71,7 +71,7 @@ class CustomModal extends React.PureComponent{
         else{
             // fetching date 
             this.fetchDate()
-            this.props.navigation.navigate('Home')
+            this.props.navigation.navigate('Dashboard')
         }
     }
 
@@ -87,7 +87,11 @@ class CustomModal extends React.PureComponent{
                 presentationStyle='overFullScreen'
                 >
 
+<<<<<<< HEAD
                 <View style = {{backgroundColor:'steelblue', flex:1}}>
+=======
+                <View style = {{backgroundColor:'orange', flex:1}}>
+>>>>>>> pagination
                     <View style = {{alignItems:'center',marginTop:100}}>
                         <Text style = {{fontSize:40}}>Game Over!</Text>
                     </View>

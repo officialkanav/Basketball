@@ -1,4 +1,4 @@
-const initialSettings = {
+export const initialSettings = {
     ballColor: 'red',
     ballSpeed: 2,
     ballRadius: 3,

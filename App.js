@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native'
+import {View,Image} from 'react-native'
 import AppNavigator from './appNavigator';
 import { Provider } from 'react-redux'
 import {store} from './store'

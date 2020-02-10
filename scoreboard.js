@@ -22,7 +22,6 @@ class Scoreboard extends React.PureComponent{
     }
     
     componentDidMount(){
-        // alert(JSON.stringify(this.props.data))
         didBlurSubscription = this.props.navigation.addListener(
             'willFocus',
             payload => {
@@ -85,7 +84,7 @@ class Scoreboard extends React.PureComponent{
                 <FlatList 
                     
                     data = {this.listData} 
-                    extraData = {this.props.sortType}
+                    extraData = {this.props.sortType,this.state.numberOfItemsInList}
                     showsVerticalScrollIndicator = {false}
                     
                     renderItem = {({item})=>{
@@ -93,13 +92,14 @@ class Scoreboard extends React.PureComponent{
                             <View>
                                 <View style = {{flex:1, flexDirection:'row'}}>
                                     <View style = {{flex:1, justifyContent:'center'}}>
-                                        <Text style = {{fontSize:22, alignSelf:'center', alignText:'center'}}>{item.name}</Text>
+                                        <Text style = {{fontSize:30, alignSelf:'center', alignText:'center'}}>{item.name}</Text>
                                     </View>
-                                    <View style = {{flex:1}}>
-                                        <Text style = {{fontSize:35, alignSelf:'center'}}>{item.score}</Text>
+                                    <View style = {{flex:1, justifyContent:'center'}}>
+                                        <Text style = {{fontSize:45, alignSelf:'center'}}>{item.score}</Text>
                                     </View>
-                                    <View style = {{flex:1}}>
-                                        <Text style = {{fontSize:22, alignSelf:'center'}}>{item.dateAndTime}</Text>
+                                    <View style = {{flex:1, justifyContent:'center'}}>
+                                        <Text style = {{fontSize:25, alignSelf:'center'}}>{item.dateAndTime.split('/')[0]}</Text>
+                                        <Text style = {{fontSize:33, alignSelf:'center'}}>{item.dateAndTime.split('/')[1]}</Text>
                                     </View>
                                     </View>
                                 <View style = {{height:2, width:'100%', backgroundColor:'black'}}></View>
@@ -107,9 +107,10 @@ class Scoreboard extends React.PureComponent{
                         )
                     }}
                     
-                    onEndReachedThreshold = {0.0001}
+                    onEndReachedThreshold = {0.00001}
 
                     onEndReached={() => {
+                        // setTimeout(()=>{this.getListData()},100)
                         this.getListData()
                         }
                     }
@@ -135,7 +136,11 @@ class Scoreboard extends React.PureComponent{
                 <View style = {{height:2, width:'100%', backgroundColor:'black'}}></View>
 
                 {/* FlatList */}
+<<<<<<< HEAD
                 <View style = {{flex:1, backgroundColor:'steelblue'}}>
+=======
+                <View style = {{flex:1, backgroundColor:'orange'}}>
+>>>>>>> pagination
                     {this.getList()}
                 </View>
             </View>
