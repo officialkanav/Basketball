@@ -85,7 +85,7 @@ class Scoreboard extends React.PureComponent{
                 <FlatList 
                     
                     data = {this.listData} 
-                    extraData = {this.props.sortType}
+                    extraData = {this.props.sortType,this.state.numberOfItemsInList}
                     showsVerticalScrollIndicator = {false}
                     
                     renderItem = {({item})=>{
@@ -95,11 +95,11 @@ class Scoreboard extends React.PureComponent{
                                     <View style = {{flex:1, justifyContent:'center'}}>
                                         <Text style = {{fontSize:22, alignSelf:'center', alignText:'center'}}>{item.name}</Text>
                                     </View>
-                                    <View style = {{flex:1}}>
-                                        <Text style = {{fontSize:35, alignSelf:'center'}}>{item.score}</Text>
+                                    <View style = {{flex:1, justifyContent:'center'}}>
+                                        <Text style = {{fontSize:40, alignSelf:'center'}}>{item.score}</Text>
                                     </View>
-                                    <View style = {{flex:1}}>
-                                        <Text style = {{fontSize:22, alignSelf:'center'}}>{item.dateAndTime}</Text>
+                                    <View style = {{flex:1, justifyContent:'center'}}>
+                                        <Text style = {{fontSize:28, alignSelf:'center'}}>{item.dateAndTime}</Text>
                                     </View>
                                     </View>
                                 <View style = {{height:2, width:'100%', backgroundColor:'black'}}></View>
@@ -107,9 +107,10 @@ class Scoreboard extends React.PureComponent{
                         )
                     }}
                     
-                    onEndReachedThreshold = {0.0001}
+                    onEndReachedThreshold = {0.00001}
 
                     onEndReached={() => {
+                        // setTimeout(()=>{this.getListData()},100)
                         this.getListData()
                         }
                     }
@@ -135,7 +136,7 @@ class Scoreboard extends React.PureComponent{
                 <View style = {{height:2, width:'100%', backgroundColor:'black'}}></View>
 
                 {/* FlatList */}
-                <View style = {{flex:1, backgroundColor:'white'}}>
+                <View style = {{flex:1, backgroundColor:'orange'}}>
                     {this.getList()}
                 </View>
             </View>

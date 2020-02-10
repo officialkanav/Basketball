@@ -2,13 +2,23 @@ import Home from './home';
 import Settings from './settings';
 import Scoreboard from './scoreboard'
 import Play from './play'
-import Modal from './Modal'
+import Splash from './Splash'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 export default AppNavigator = createAppContainer(createStackNavigator({
     Home: {
-      screen: Home
+      screen: Splash,
+      navigationOptions:{
+        header: null,
+      }
+    },
+    Dashboard: {
+      screen: Home,
+      navigationOptions:{
+        headerLeft: null,
+        headerTitleStyle : {color:'gray'}
+      }
     },
     Setting: {
       screen: Settings,

@@ -45,10 +45,6 @@ class Settings extends React.PureComponent{
                             basketRadius: 3,
                         }
                         this.setState({...restoredSettings})
-                        // let action = {type: 'saveSettings', payLoad: restoredSettings}
-                        // this.props.dispatch(action)
-                        // setTimeout(()=>{this.changeState()},100)
-                        // this.setState({renderer:!this.state.renderer})
                     }}>
                     <Text style = {{fontSize:25, color:'black'}}>Reset</Text>
                 </TouchableOpacity>
@@ -71,6 +67,7 @@ class Settings extends React.PureComponent{
                     <Picker.Item label="green" value="green" />
                     <Picker.Item label="blue" value="blue" />
                     <Picker.Item label="red" value="red" />
+                    <Picker.Item label="brown" value="brown" />
                 </Picker>
             </View>
         )
@@ -154,6 +151,7 @@ class Settings extends React.PureComponent{
                         }
                         let action = {type: 'saveSettings', payLoad: newSettings}
                         this.props.dispatch(action)
+                        this.props.navigation.navigate('Dashboard')
                     }}>
                     <Text style = {{fontSize:35, color:'black'}}>Save</Text>
                 </TouchableOpacity>
@@ -164,7 +162,7 @@ class Settings extends React.PureComponent{
 
     render(){
         return(
-            <View style = {{flex:1, backgroundColor:'white'}}>
+            <View style = {{flex:1, backgroundColor:'orange'}}>
                 {/* reset */}
                 {this.getResetButton()}
 
