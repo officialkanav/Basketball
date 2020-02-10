@@ -221,10 +221,6 @@ class Play extends React.PureComponent{
 
     shoot = ()=>{
         this.setState({prevX:this.state.currentX})
-<<<<<<< HEAD
-=======
-
->>>>>>> pagination
         if(this.result() == 'won')
             this.startWinAnimation()
         else
@@ -233,34 +229,17 @@ class Play extends React.PureComponent{
 
     render(){
         return(
-<<<<<<< HEAD
-            <View style = {{flex:1, backgroundColor:'steelblue'}}>
-=======
             <View style = {{flex:1, backgroundColor:'orange'}}>
                 {/* Modal */}
->>>>>>> pagination
                 <CustomModal modalVisible = {this.state.modalVisible} score = {this.state.score} />
                
                 {/* timer and score */}
-<<<<<<< HEAD
-                <View style = {{flexDirection:'row'}}>
-                    <Text style = {{fontSize:35, merginLeft:10}}>{this.state.timer}</Text>
-                    <Text style = {{fontSize:25, position:'absolute', left:310}}>Score: {this.state.score}</Text>
-                </View>
-                
-                {/* basket */}
-                <ImageBackground style = {{zIndex:-1, alignSelf:'center', height:200,width:300, marginTop:50}} source = {require('./court.jpg')}>
-                </ImageBackground>
-                <View style = {{backgroundColor:'red', zIndex:this.state.zIndex, alignSelf:'center', position:'absolute',top:270,borderRadius:10, height:10,width:this.calculateBasketRadius(), marginTop:0}}></View>
-                <Image source = {require('./stand.jpeg')} style = {{zIndex:-1, height:170, width:30, alignSelf:'center'}}></Image>
-=======
                 {this.getTimerAndScore()}
                 
                 {/* basket */}
                 <ImageBackground style = {{zIndex:-1, alignSelf:'center', height:200,width:300, marginTop:50}} source = {require('./court.jpg')}/>
                 <View style = {{zIndex:-1, height:130, width:30, alignSelf:'center', backgroundColor:'black'}}/>
                 <View style = {{backgroundColor:'brown', zIndex:this.state.zIndex, alignSelf:'center', position:'absolute',top:270,borderRadius:10, height:10,width:this.calculateBasketRadius(), marginTop:0}}></View>
->>>>>>> pagination
                 
                 {/* ball */}
                 {this.getBall()}

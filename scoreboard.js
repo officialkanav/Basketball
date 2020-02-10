@@ -136,11 +136,7 @@ class Scoreboard extends React.PureComponent{
                 <View style = {{height:2, width:'100%', backgroundColor:'black'}}></View>
 
                 {/* FlatList */}
-<<<<<<< HEAD
-                <View style = {{flex:1, backgroundColor:'steelblue'}}>
-=======
                 <View style = {{flex:1, backgroundColor:'orange'}}>
->>>>>>> pagination
                     {this.getList()}
                 </View>
             </View>
