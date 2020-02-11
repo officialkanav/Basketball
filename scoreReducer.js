@@ -175,7 +175,6 @@ function binarySearchAscDate(element, array, start, end) {
         return binarySearchAscDate(element, array, pivot, end);
     else 
         return binarySearchAscDate(element, array, start, pivot);
-    
 }
 
 function binarySearchDescDate(element, array, start, end) {
@@ -279,6 +278,7 @@ saveScoreInTwo = (state,scoreObject)=>{
     state.sortedOnScores.scores = saveScore(scoreObject,state.sortedOnScores.type,state.sortedOnScores.scores)
     return {...state}
 }
+
 
 export default function scoreReducer(state = initialScores, action){
     switch(action.type){

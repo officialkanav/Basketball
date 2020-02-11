@@ -20,20 +20,11 @@ class CustomModal extends React.PureComponent{
         this.getDate()
     }
     
-    componentDidMount() {
-        AppState.addEventListener('change', this.handleAppStateChange);
-    }
-     
-    componentWillUnmount() {
-        AppState.removeEventListener('change', this.handleAppStateChange);
-    }
-    
-    handleAppStateChange = (nextAppState) => {
-        if (this.props.modalVisible && (nextAppState === 'inactive' || nextAppState === 'background')) {
+    componentDidUpdate(prevProps, prevState, snapshot){
+        if(prevProps.modalVisible == false && this.props.modalVisible == true){
             this.object.score = this.props.score
-            this.props.dispatch({type:'saveScore',payLoad:this.object})
-            this.props.navigation.navigate('Dashboard')
-        }    
+            this.props.dispatch({type:'tempStore',payLoad:this.object})
+        }
     }
 
     fetchDate = ()=>{
@@ -52,8 +43,6 @@ class CustomModal extends React.PureComponent{
                     unixTime: responseJson.unixtime,
                     dateAndTime: dateTime,
                 }
-
-                // this.props.dispatch({type:'saveScore',payLoad:dateObject})
                 return dateObject;
             })
             .catch((error) => {
@@ -74,6 +63,8 @@ class CustomModal extends React.PureComponent{
             this.object.score = this.props.score
 
             this.props.dispatch({type:'saveScore',payLoad:this.object})
+            this.props.dispatch({type: 'clearTempStore'})
+
             this.props.navigation.navigate('Dashboard')
         }
     }

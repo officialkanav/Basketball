@@ -4,7 +4,6 @@ import {
     Picker,
     Slider,
     TouchableOpacity,
-    TextInput,
     Text,
   } from 'react-native';
 import { connect } from 'react-redux';

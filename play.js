@@ -26,7 +26,7 @@ class Play extends React.PureComponent{
           }
         
         this.state = {
-            timer: 30,
+            timer: 5,
             score: 0,
             animator: new Animated.Value(0),
             panX: new Animated.Value(middle),
@@ -87,6 +87,8 @@ class Play extends React.PureComponent{
             if(this.state.timer == 0){
                 clearInterval(cd)
                 this.setState({modalVisible:true})
+                // const x = {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'}
+                // this.props.dispatch({type:'tempStore',payLoad: x})
             }
             else{
                 this.setState({timer: this.state.timer-1})
