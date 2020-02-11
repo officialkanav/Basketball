@@ -36,7 +36,7 @@ export default class Home extends React.PureComponent{
                                     cBack: ()=>{ self.timerCallback() } 
                                 })}}>
                                 <Image source = {{uri:'https://static.vecteezy.com/system/resources/previews/000/331/341/large_2x/vector-setting-icon.jpg'}}
-                                style = {{height:30, width: 30, marginTop: 10}}></Image>
+                                        style = {{height:30, width: 30, marginTop: 10}}/>
                             </TouchableHighlight>
                         </View>
                 )
@@ -72,9 +72,12 @@ export default class Home extends React.PureComponent{
     getButton = (text)=>{
         return(
             <TouchableOpacity style = {{borderRadius:30,width:150,height:50,backgroundColor:'black', 
-                alignItems:'center', justifyContent:'center'}} onPress = {()=>{this.backCounter = 1; this.props.navigation.push(text)}}>
+                alignItems:'center', justifyContent:'center'}} 
+                onPress = {()=>{this.backCounter = 1; this.props.navigation.push(text)}}>
 
-                <Text style = {{color:'white',fontSize:20,fontWeight:'500',textAlign:'center'}}>{text}</Text>     
+                <Text style = {{color:'white',fontSize:20,fontWeight:'500',textAlign:'center'}}>
+                    {text}
+                </Text>     
             </TouchableOpacity>
         )
     }
@@ -82,8 +85,8 @@ export default class Home extends React.PureComponent{
     render(){
         return(
             <View style = {{flex:1, backgroundColor:'#EE891D', alignItems:'center'}}>
-                <ImageBackground source = {{uri:'https://images.assetsdelivery.com/compings_v2/lar01joka/lar01joka1506/lar01joka150600363.jpg'}} style = {{height:500, width: 500, alignSelf:'center'}}>
-                </ImageBackground>
+                <ImageBackground source = {{uri:'https://images.assetsdelivery.com/compings_v2/lar01joka/lar01joka1506/lar01joka150600363.jpg'}} 
+                    style = {{height:500, width: 500, alignSelf:'center'}}/>
                 <View style = {{ flexDirection:'row'}}>
                     <View style = {{marginTop:100, marginRight:20}}>{this.getButton("Play")}</View>
                     <View style = {{marginTop:100, marginLeft:20}}>{this.getButton("Scoreboard")}</View>

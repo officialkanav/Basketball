@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     View,
-    Image,
     Animated,
     Text,
     TouchableOpacity,
@@ -15,6 +14,7 @@ import { connect } from 'react-redux';
 import CustomModal from './Modal'
 
 const middle = Dimensions.get('window').width/2.2
+
 class Play extends React.PureComponent{
     constructor(props){
         super(props)
@@ -93,7 +93,7 @@ class Play extends React.PureComponent{
             }
         },1000)
     }
-    
+
     interpolateSpeed = ()=>{
         if(this.props.ballSpeed<=3)
             return (4-this.props.ballSpeed);
@@ -117,6 +117,7 @@ class Play extends React.PureComponent{
         value = Math.abs(this.state.currentX - middle)
         value = value * this.props.ballSpeed
         value = value / this.props.basketRadius
+
         if(value<this.threshold){
             this.setState({animationTweek:1})
             return 'won'
@@ -131,10 +132,11 @@ class Play extends React.PureComponent{
             outputRange: [600,130,400]
         })
         return(
-                <Animated.View {...this.panHandler.panHandlers} style = {{backgroundColor:this.props.ballColor
-                , borderRadius:10*this.props.ballRadius, 
-                height:this.calculateBallRadius(), width:this.calculateBallRadius(), 
-                position:'absolute',left:this.state.panX, top,
+                <Animated.View {...this.panHandler.panHandlers} 
+                    style = {{
+                        backgroundColor:this.props.ballColor,borderRadius:10*this.props.ballRadius, 
+                        height:this.calculateBallRadius(), width:this.calculateBallRadius(), 
+                        position:'absolute',left:this.state.panX, top,
                 }}/>   
         )
     }
@@ -143,14 +145,21 @@ class Play extends React.PureComponent{
         return(
                 <View style = {{flexDirection:'row'}}>
                     <Text style = {{fontSize:35, merginLeft:10}}>{this.state.timer}</Text>
-                    <Text style = {{fontSize:25, position:'absolute', left:310}}>Score: {this.state.score}</Text>
+                    <Text style = {{fontSize:25, position:'absolute', left:310}}>
+                        Score: {this.state.score}
+                    </Text>
                 </View>
         )
     }
 
     getShootButton = ()=>{
         return(
-            <TouchableOpacity style = {{alignSelf:'center', alignItems:'center', backgroundColor:'black', height:50, width:100, borderRadius:15, position:'absolute', top:720, left:Dimensions.get('window').width/2.5}}
+            <TouchableOpacity 
+                style = {{
+                    alignSelf:'center', alignItems:'center', backgroundColor:'black', 
+                    height:50, width:100, borderRadius:15, position:'absolute', top:720, 
+                    left:Dimensions.get('window').width/2.5
+                }}
                 disabled = {this.state.prevX == this.state.currentX?true:false}
                 onPress = {()=>{this.shoot()}}>
                 <Text style = {{fontSize:35, color:'white'}}>Shoot</Text>
@@ -161,15 +170,17 @@ class Play extends React.PureComponent{
     startWinAnimation = ()=>{
         const interpolationFactor = this.interpolateSpeed()
 
-        Animated.timing(this.state.panX,{
-            toValue: middle, 
-            duration:1000*interpolationFactor
-        }).start()
-
-        Animated.timing(this.state.animator, {
-            toValue: 1.5,
-            duration: 1000*interpolationFactor
-            }).start()
+        Animated.parallel([
+            Animated.timing(this.state.panX,{
+                toValue: middle, 
+                duration:1000*interpolationFactor
+            }),
+            Animated.timing(this.state.animator, {
+                toValue: 1.5,
+                duration: 1000*interpolationFactor
+            })
+        ])
+        .start()
 
         setTimeout(()=>{this.setState({zIndex:1})},800*interpolationFactor)
 
@@ -182,41 +193,44 @@ class Play extends React.PureComponent{
 
         setTimeout(()=>{
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-            this.setState({animator: new Animated.Value(0), currentX:middle},()=>{this.setState({score:this.state.score+1, zIndex:-1})})    
+            this.setState({animator: new Animated.Value(0), currentX:middle},
+            ()=>{this.state.timer>0?this.setState({score:this.state.score+1, zIndex:-1}):this.setState({zIndex:-1})})    
         }
         ,2000*interpolationFactor)
     }
 
     startLosingAnimation = ()=>{
         let direction = null
+        const interpolationFactor = this.interpolateSpeed()
 
         if(this.state.currentX<165)
             direction = 100
         else    
-            direction = 250   
+            direction = 250
 
-        Animated.timing(this.state.panX,{
-            toValue: direction, 
-            duration:1000*this.interpolateSpeed()
-        }).start()
-
-        Animated.timing(this.state.animator, {
-            toValue: 1.5,
-            duration: 1000*this.interpolateSpeed()
-            }).start()
+        Animated.parallel([
+            Animated.timing(this.state.panX,{
+                toValue: direction, 
+                duration:1000*interpolationFactor
+            }),
+            Animated.timing(this.state.animator, {
+                toValue: 1.5,
+                duration: 1000*interpolationFactor
+            })
+        ]).start()
 
         setTimeout(()=>{
             Animated.spring(this.state.animator, {
             toValue: 2,
-            duration: 2000*this.interpolateSpeed(),
+            duration: 2000*interpolationFactor,
             damping:5
-            }).start()},1000*this.interpolateSpeed())
+            }).start()},1000*interpolationFactor)
 
         setTimeout(()=>{
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
             this.setState({animator: new Animated.Value(0), currentX:direction})
             }
-        ,2000*this.interpolateSpeed())
+        ,2000*interpolationFactor)
     }
 
     shoot = ()=>{
@@ -236,17 +250,22 @@ class Play extends React.PureComponent{
                 {/* timer and score */}
                 {this.getTimerAndScore()}
                 
-                {/* basket */}
+                {/* basket and floor */}
                 <ImageBackground style = {{zIndex:-1, alignSelf:'center', height:200,width:300, marginTop:50}} source = {require('./court.jpg')}/>
                 <View style = {{zIndex:-1, height:130, width:30, alignSelf:'center', backgroundColor:'black'}}/>
-                <View style = {{backgroundColor:'brown', zIndex:this.state.zIndex, alignSelf:'center', position:'absolute',top:270,borderRadius:10, height:10,width:this.calculateBasketRadius(), marginTop:0}}></View>
-                
+                <View style = {{
+                    backgroundColor:'brown', zIndex:this.state.zIndex, alignSelf:'center', 
+                    position:'absolute',top:270,borderRadius:10, height:10,width:this.calculateBasketRadius(),
+                    marginTop:0}}>
+                </View>
+                <View style = {{backgroundColor:'black', height:2, width:450}}></View>
+                <View style = {{backgroundColor:'gray', height:500, width:450}}></View>
+               
                 {/* ball */}
                 {this.getBall()}
                 
                 {/* button */}
                 {this.getShootButton()}
-
             </View>
         )
     }

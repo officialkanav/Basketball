@@ -33,22 +33,36 @@ class Settings extends React.PureComponent{
         })
     }
 
+    saveSettings = ()=>{
+        newSettings = {
+            ballColor: this.state.color,
+            ballSpeed: this.state.speed,
+            ballRadius: this.state.ballRadius,
+            basketRadius: this.state.basketRadius,
+        }
+        action = {type: 'saveSettings', payLoad: newSettings}
+        this.props.dispatch(action)
+        this.props.navigation.navigate('Dashboard') 
+    }
+
+    resetSettings = ()=>{
+        let restoredSettings = {
+            color: 'red',
+            speed: 2,
+            ballRadius: 3,
+            basketRadius: 3,
+        }
+        this.setState({...restoredSettings})
+        let action = {type: 'saveSettings', payLoad: initialSettings}
+        this.props.dispatch(action)
+        this.props.navigation.navigate('Dashboard')
+    }
+
     getResetButton = ()=>{
         return(
             <View style = {{flexDirection:'row-reverse'}}>
                 <TouchableOpacity style = {{backgroundColor:'gray'}}
-                    onPress = {()=>{
-                        let restoredSettings = {
-                            color: 'red',
-                            speed: 2,
-                            ballRadius: 3,
-                            basketRadius: 3,
-                        }
-                        this.setState({...restoredSettings})
-                        let action = {type: 'saveSettings', payLoad: initialSettings}
-                        this.props.dispatch(action)
-                        this.props.navigation.navigate('Dashboard')
-                    }}>
+                    onPress = {this.resetSettings}>
                     <Text style = {{fontSize:25, color:'black'}}>Reset</Text>
                 </TouchableOpacity>
             </View>
@@ -70,7 +84,7 @@ class Settings extends React.PureComponent{
                     <Picker.Item label="green" value="green" />
                     <Picker.Item label="blue" value="blue" />
                     <Picker.Item label="red" value="red" />
-                    <Picker.Item label="gray" value="gray" />
+                    <Picker.Item label="orange" value="orange" />
                 </Picker>
             </View>
         )
@@ -145,17 +159,7 @@ class Settings extends React.PureComponent{
         return(
             <View style = {{alignSelf:'center', marginTop:100}}>
                 <TouchableOpacity style = {{backgroundColor:'silver'}}
-                    onPress = {()=>{
-                        let newSettings = {
-                            ballColor: this.state.color,
-                            ballSpeed: this.state.speed,
-                            ballRadius: this.state.ballRadius,
-                            basketRadius: this.state.basketRadius,
-                        }
-                        let action = {type: 'saveSettings', payLoad: newSettings}
-                        this.props.dispatch(action)
-                        this.props.navigation.navigate('Dashboard')
-                    }}>
+                    onPress = {this.saveSettings}>
                     <Text style = {{fontSize:35, color:'black'}}>Save</Text>
                 </TouchableOpacity>
             </View>

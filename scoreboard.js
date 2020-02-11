@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 
 class Scoreboard extends React.PureComponent{
 
-    // listData = [{name:'',score:'',dateAndTime:''}]
     didBlurSubscription = null
     
     constructor(props){
@@ -49,13 +48,17 @@ class Scoreboard extends React.PureComponent{
 
     getListData = ()=>{
         if(this.state.numberOfItemsInList+10 < this.props.data[this.props.sortType].scores.length){
-            this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+10))
+            this.listData = this.listData.concat(
+                this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+10)
+            )
             this.setState({numberOfItemsInList: this.state.numberOfItemsInList+10})
         }
         else if(this.state.numberOfItemsInList == this.props.data[this.props.sortType].scores.length){
         }
         else{
-            this.listData = this.listData.concat(this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.props.data[this.props.sortType].length))
+            this.listData = this.listData.concat(
+                this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.props.data[this.props.sortType].length)
+            )
             this.setState({numberOfItemsInList: this.props.data[this.props.sortType].scores.length})
         }
     }
@@ -87,24 +90,35 @@ class Scoreboard extends React.PureComponent{
                     
                     data = {this.listData} 
                     extraData = {this.props.sortType,this.state.numberOfItemsInList}
-                    showsVerticalScrollIndicator = {false}
+                    showsVerticalScrollIndicator = {true}
                     
                     renderItem = {({item})=>{
                         return(
                             <View>
                                 <View style = {{flex:1, flexDirection:'row'}}>
+                                    {/* Name */}
                                     <View style = {{flex:1, justifyContent:'center'}}>
-                                        <Text style = {{fontSize:30, alignSelf:'center', alignText:'center'}}>{item.name}</Text>
+                                        <Text style = {{fontSize:30, alignSelf:'center', alignText:'center'}}>
+                                            {item.name}
+                                        </Text>
                                     </View>
+
+                                    {/* Score */}
                                     <View style = {{flex:1, justifyContent:'center'}}>
                                         <Text style = {{fontSize:45, alignSelf:'center'}}>{item.score}</Text>
                                     </View>
+
+                                    {/* Date and Time */}
                                     <View style = {{flex:1, justifyContent:'center'}}>
-                                        <Text style = {{fontSize:24, alignSelf:'center'}}>{item.dateAndTime.split('/')[0]}</Text>
-                                        <Text style = {{fontSize:32, alignSelf:'center'}}>{item.dateAndTime.split('/')[1]}</Text>
+                                        <Text style = {{fontSize:24, alignSelf:'center'}}>
+                                            {item.dateAndTime.split('/')[0]}
+                                        </Text>
+                                        <Text style = {{fontSize:32, alignSelf:'center'}}>
+                                            {item.dateAndTime.split('/')[1]}
+                                        </Text>
                                     </View>
-                                    </View>
-                                <View style = {{height:2, width:'100%', backgroundColor:'black'}}></View>
+                                </View>
+                                <View style = {{height:2, width:'100%', backgroundColor:'black'}}/>
                             </View>
                         )
                     }}

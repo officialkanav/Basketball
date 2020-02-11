@@ -17,8 +17,9 @@ class CustomModal extends React.PureComponent{
         this.state = {
             name:'',
         }
+        this.getDate()
     }
-
+    
     componentDidMount() {
         AppState.addEventListener('change', this.handleAppStateChange);
     }
@@ -28,14 +29,15 @@ class CustomModal extends React.PureComponent{
     }
     
     handleAppStateChange = (nextAppState) => {
-        if (nextAppState === 'inactive') {
-            this.fetchDate()
+        if (this.props.modalVisible && (nextAppState === 'inactive' || nextAppState === 'background')) {
+            this.object.score = this.props.score
+            this.props.dispatch({type:'saveScore',payLoad:this.object})
             this.props.navigation.navigate('Dashboard')
         }    
     }
 
     fetchDate = ()=>{
-        fetch('http://worldtimeapi.org/api/timezone/Asia/Kolkata')
+        return fetch('http://worldtimeapi.org/api/timezone/Asia/Kolkata')
             .then((response) => response.json())
             .then((responseJson) => {
                 
@@ -45,26 +47,33 @@ class CustomModal extends React.PureComponent{
                 dateTime = date + "/" + dateAndTime[1].slice(0,8)
 
                 dateObject = {
-                    name: this.state.name,
-                    score: this.props.score,
+                    name: '',
+                    score: -1,
                     unixTime: responseJson.unixtime,
                     dateAndTime: dateTime,
                 }
 
-                this.props.dispatch({type:'saveScore',payLoad:dateObject})
+                // this.props.dispatch({type:'saveScore',payLoad:dateObject})
                 return dateObject;
             })
             .catch((error) => {
             console.error(error);
             });
-            }
+    }
+
+    async getDate(){
+        this.object = await this.fetchDate()
+    }
 
     submitOnPress = ()=>{
         if(this.state.name.length == 0){
             alert("Name please")
         }
         else{
-            this.fetchDate()
+            this.object.name = this.state.name
+            this.object.score = this.props.score
+
+            this.props.dispatch({type:'saveScore',payLoad:this.object})
             this.props.navigation.navigate('Dashboard')
         }
     }
@@ -73,7 +82,10 @@ class CustomModal extends React.PureComponent{
         return(
             <View style = {{ marginTop:100, alignItems:'center'}}>
                 <TextInput
-                    style={{ borderRadius:10, fontSize:35, height: 70, width: 280, borderColor: 'black', borderWidth: 1 }}
+                    style={{ 
+                        borderRadius:10, fontSize:35, height: 70, width: 280, borderColor: 'black',
+                        borderWidth: 1 
+                    }}
                     placeholder = "Enter Name"
                     onChangeText={text => {text.length<=18?this.setState({name:text}):null}}
                     value={this.state.name}
