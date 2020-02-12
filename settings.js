@@ -8,6 +8,7 @@ import {
   } from 'react-native';
 import { connect } from 'react-redux';
 import {initialSettings} from './saveSettingsReducer'
+import { Dropdown } from 'react-native-material-dropdown';
 class Settings extends React.PureComponent{
     constructor(props){
         super(props)
@@ -69,29 +70,25 @@ class Settings extends React.PureComponent{
     }
 
     setBallColor = ()=>{
+        let data = [{value: 'red'},{value: 'green'},{value: 'blue'},
+                    {value: 'orange'},{value: 'black'},{value: 'yellow'}];
+      
         return(
-            <View style = {{marginTop:65, flexDirection:'row'}}>
-                <Text style = {{marginTop:10,fontSize:20}}>ballColor: </Text>
-                <Picker
-                    selectedValue={this.state.color}
-                    style={{flex:1}}
-                    onValueChange={(itemValue, itemIndex) =>
-                        this.setState({color: itemValue})
-                    }
-                    mode = 'dropdown'>
-                    <Picker.Item label="black" value="black" />
-                    <Picker.Item label="green" value="green" />
-                    <Picker.Item label="blue" value="blue" />
-                    <Picker.Item label="red" value="red" />
-                    <Picker.Item label="orange" value="orange" />
-                </Picker>
+            <View style = {{marginTop:50}}>
+                <Dropdown
+                    label='Ball Color'
+                    itemCount = {3}
+                    data={data}
+                    value = {this.state.color==null?this.props.ballColor:this.state.color}
+                    onChangeText = {(value)=>{this.setState({color:value})}}
+                />
             </View>
         )
     }
 
     setBallRadius = ()=>{
         return(
-            <View style = {{marginTop:65,flexDirection:'row'}}>
+            <View style = {{marginTop:85,flexDirection:'row'}}>
                 <Text style = {{fontSize:20}}>ballRadius: </Text>
                 <Slider
                     step={0.1}
@@ -115,7 +112,7 @@ class Settings extends React.PureComponent{
 
     setBallSpeed = ()=>{
         return(
-            <View style = {{flexDirection:'row', marginTop:75}}>
+            <View style = {{flexDirection:'row', marginTop:85}}>
                 <Text style = {{fontSize:20}}>Speed: </Text>
                 <TouchableOpacity style = {{marginLeft:110}} onPress = {()=>{this.setState({speed:(this.state.speed-1)>0?this.state.speed-1:1})}}>
                     <Text style = {{fontSize:40}}> -  </Text>
@@ -130,7 +127,7 @@ class Settings extends React.PureComponent{
 
     setBasketRadius = ()=>{
        return(
-            <View style = {{flexDirection:'row', marginTop:80}}>
+            <View style = {{flexDirection:'row', marginTop:85}}>
                 <Text style = {{fontSize:20}}>basketRadius: </Text>
                 <Slider
                     step={0.1}
