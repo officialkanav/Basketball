@@ -26,7 +26,7 @@ class Play extends React.PureComponent{
           }
         
         this.state = {
-            timer: 5,
+            timer: 30,
             score: 0,
             animator: new Animated.Value(0),
             panX: new Animated.Value(middle),
@@ -34,17 +34,18 @@ class Play extends React.PureComponent{
             currentX: middle,
             modalVisible: false,
             prevX: -1000,
-            zIndex:-1
+            zIndex:-1,
+            enablePanResponder: true
         }
 
         this.threshold = 50
         this.backCount = 0
 
         this.panHandler = PanResponder.create({
-            onStartShouldSetPanResponder: (evt, gestureState) => true,
-            onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-            onMoveShouldSetPanResponder: (evt, gestureState) => true,
-            onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+            onStartShouldSetPanResponder: (evt, gestureState) => this.state.enablePanResponder,
+            onStartShouldSetPanResponderCapture: (evt, gestureState) => this.state.enablePanResponder,
+            onMoveShouldSetPanResponder: (evt, gestureState) => this.state.enablePanResponder,
+            onMoveShouldSetPanResponderCapture: (evt, gestureState) => this.state.enablePanResponder,
             
             onPanResponderGrant(e, gestureState){
                 
@@ -87,8 +88,6 @@ class Play extends React.PureComponent{
             if(this.state.timer == 0){
                 clearInterval(cd)
                 this.setState({modalVisible:true})
-                // const x = {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'}
-                // this.props.dispatch({type:'tempStore',payLoad: x})
             }
             else{
                 this.setState({timer: this.state.timer-1})
@@ -195,7 +194,7 @@ class Play extends React.PureComponent{
 
         setTimeout(()=>{
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-            this.setState({animator: new Animated.Value(0), currentX:middle},
+            this.setState({animator: new Animated.Value(0), currentX:middle, enablePanResponder:true},
             ()=>{this.state.timer>0?this.setState({score:this.state.score+1, zIndex:-1}):this.setState({zIndex:-1})})    
         }
         ,2000*interpolationFactor)
@@ -230,13 +229,13 @@ class Play extends React.PureComponent{
 
         setTimeout(()=>{
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-            this.setState({animator: new Animated.Value(0), currentX:direction})
+            this.setState({animator: new Animated.Value(0), currentX:direction, enablePanResponder:true})
             }
         ,2000*interpolationFactor)
     }
 
     shoot = ()=>{
-        this.setState({prevX:this.state.currentX})
+        this.setState({prevX:this.state.currentX, enablePanResponder:false})
         if(this.result() == 'won')
             this.startWinAnimation()
         else

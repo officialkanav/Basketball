@@ -13,7 +13,6 @@ export default function tempStateReducer(state = initialState, action){
                 unsavedScore: { ...action.payLoad }
             }
         case 'clearTempStore':
-            console.log("CLEAR TEMP")
             return tempStore(state, null)
     } 
     return state

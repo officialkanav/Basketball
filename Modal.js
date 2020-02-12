@@ -16,6 +16,7 @@ class CustomModal extends React.PureComponent{
         
         this.state = {
             name:'',
+            disableSubmit:false
         }
         this.getDate()
     }
@@ -59,6 +60,7 @@ class CustomModal extends React.PureComponent{
             alert("Name please")
         }
         else{
+            this.setState({disableSubmit:true})
             this.object.name = this.state.name
             this.object.score = this.props.score
 
@@ -97,7 +99,9 @@ class CustomModal extends React.PureComponent{
         return(
             <View style = {{alignItems:'center',marginTop:100}}>
                 <TouchableOpacity style = {{backgroundColor:'black', borderRadius:10}}
-                    onPress = {this.submitOnPress}>
+                    onPress = {this.submitOnPress}
+                    disabled = {this.state.disableSubmit}
+                    >
                     <Text style = {{color:'white', fontSize:40}}>Submit</Text>
                 </TouchableOpacity>
             </View>

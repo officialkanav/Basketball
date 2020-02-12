@@ -274,9 +274,10 @@ saveScore = (scoreObject, type, scores)=>{
 }
 
 saveScoreInTwo = (state,scoreObject)=>{
-    state.sortedOnDate.scores = saveDate(scoreObject,state.sortedOnDate.type,state.sortedOnDate.scores)
-    state.sortedOnScores.scores = saveScore(scoreObject,state.sortedOnScores.type,state.sortedOnScores.scores)
-    return {...state}
+    tempState = {...state}
+    tempState.sortedOnDate.scores = saveDate(scoreObject,state.sortedOnDate.type,state.sortedOnDate.scores)
+    tempState.sortedOnScores.scores = saveScore(scoreObject,state.sortedOnScores.type,state.sortedOnScores.scores)
+    return tempState
 }
 
 

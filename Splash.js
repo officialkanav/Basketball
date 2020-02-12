@@ -12,6 +12,7 @@ class Splash extends React.PureComponent{
         
         this.state = {
         }
+        
         if(this.props.unsavedScore!=null){
             this.props.dispatch({type:'saveScore',payLoad:this.props.unsavedScore})
             this.props.dispatch({type: 'clearTempStore'})
