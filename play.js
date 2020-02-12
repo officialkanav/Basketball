@@ -137,7 +137,7 @@ class Play extends React.PureComponent{
                     style = {{
                         backgroundColor:this.props.ballColor,borderRadius:10*this.props.ballRadius, 
                         height:this.calculateBallRadius(), width:this.calculateBallRadius(), 
-                        position:'absolute',left:this.state.panX, top,
+                        position:'absolute',left:this.state.panX, top
                 }}/>   
         )
     }

@@ -7,8 +7,7 @@ export const initialSettings = {
 
 export default function saveReducer(state = initialSettings, action) {
     switch(action.type){
-      case 'saveSettings' : 
-          console.log("save settings reducer!")
+      case 'saveSettings' :
           return action.payLoad
     }
     return state;

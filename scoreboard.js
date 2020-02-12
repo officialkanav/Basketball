@@ -90,7 +90,7 @@ class Scoreboard extends React.PureComponent{
                     
                     data = {this.listData} 
                     extraData = {this.props.sortType,this.state.numberOfItemsInList}
-                    showsVerticalScrollIndicator = {true}
+                    showsVerticalScrollIndicator = {false}
                     
                     renderItem = {({item})=>{
                         return(

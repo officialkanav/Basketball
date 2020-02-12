@@ -268,7 +268,6 @@ saveScore = (scoreObject, type, scores)=>{
         else{
             scores.splice((loc), 0, scoreObject);
         }
-        console.log(JSON.stringify(scores[loc]))
         return scores
     }
 }

@@ -9,6 +9,8 @@ import {
     ImageBackground
   } from 'react-native';
 
+let self = () => {}
+  
 export default class Home extends React.PureComponent{
     constructor(props){
         super(props)
@@ -16,6 +18,7 @@ export default class Home extends React.PureComponent{
 
         }
         this.backCounter = 0
+        self = this.handleBackButtonClick
     }
     static navigationOptions = ({navigation})=>{
         return(
@@ -31,10 +34,10 @@ export default class Home extends React.PureComponent{
                 headerRight : ()=>(
                         <View style = {{flex:1}}>
                             <TouchableHighlight onPress = {()=>{
-                                this.backCounter = 1;
-                                navigation.push('Setting',{
-                                    cBack: ()=>{ self.timerCallback() } 
-                                })}}>
+                                BackHandler.removeEventListener('hardwareBackPress', self);
+                                console.log('here')
+                                this.backCounter = 2
+                                navigation.push('Setting')}}>
                                 <Image source = {{uri:'https://static.vecteezy.com/system/resources/previews/000/331/341/large_2x/vector-setting-icon.jpg'}}
                                         style = {{height:30, width: 30, marginTop: 10}}/>
                             </TouchableHighlight>
@@ -44,28 +47,33 @@ export default class Home extends React.PureComponent{
         )
     }
     
-    componentWillMount(){
+    componentDidMount(){
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+        self = this.handleBackButtonClick
         didBlurSubscription = this.props.navigation.addListener(
             'willFocus',
             payload => {
-              this.backCounter = 0
+                self = this.handleBackButtonClick
+                this.backCounter = 0
+                BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
             }
         )
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
         // didBlurSubscription.removeEventListener()
     }
 
     handleBackButtonClick = ()=>{
+        if(this.backCounter == 2){
+            return true
+        }
         if(this.backCounter == 0){
             alert("Press again to exit!")
             this.backCounter = 1
             return true;
         }
-
+        BackHandler.exitApp()
         return false
     }
 
@@ -73,8 +81,7 @@ export default class Home extends React.PureComponent{
         return(
             <TouchableOpacity style = {{borderRadius:30,width:150,height:50,backgroundColor:'black', 
                 alignItems:'center', justifyContent:'center'}} 
-                onPress = {()=>{this.backCounter = 1; this.props.navigation.push(text)}}>
-
+                onPress = {()=>{BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick); this.props.navigation.push(text)}}>
                 <Text style = {{color:'white',fontSize:20,fontWeight:'500',textAlign:'center'}}>
                     {text}
                 </Text>     
