@@ -1,9 +1,9 @@
 import React from 'react';
 import {View,Image} from 'react-native'
-import AppNavigator from './appNavigator';
+import AppNavigator from './AppNavigator';
 import { Provider } from 'react-redux'
-import {store} from './store'
-import persist from './store'
+import {store} from './store/Store'
+import persist from './store/Store'
 import { PersistGate } from 'redux-persist/lib/integration/react';
 
 export default App = () => {

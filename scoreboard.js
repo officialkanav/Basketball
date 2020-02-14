@@ -47,11 +47,11 @@ class Scoreboard extends React.PureComponent{
     }
 
     getListData = ()=>{
-        if(this.state.numberOfItemsInList+10 < this.props.data[this.props.sortType].scores.length){
+        if(this.state.numberOfItemsInList+15 < this.props.data[this.props.sortType].scores.length){
             this.listData = this.listData.concat(
-                this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+10)
+                this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+15)
             )
-            this.setState({numberOfItemsInList: this.state.numberOfItemsInList+10})
+            this.setState({numberOfItemsInList: this.state.numberOfItemsInList+15})
         }
         else if(this.state.numberOfItemsInList == this.props.data[this.props.sortType].scores.length){
         }
@@ -61,6 +61,14 @@ class Scoreboard extends React.PureComponent{
             )
             this.setState({numberOfItemsInList: this.props.data[this.props.sortType].scores.length})
         }
+    }
+
+    getNumberOfContents = ()=>{
+        return(
+            <View style = {{width:450,height:40, backgroundColor:'gray'}}>
+                <Text style = {{alignSelf:'center', fontSize:25}}>{'Displaying: '+this.listData.length+' / '+this.props.data[this.props.sortType].scores.length}</Text>
+            </View>
+        )
     }
 
     getHeadings = (name, onPressCallback)=>{
@@ -123,7 +131,7 @@ class Scoreboard extends React.PureComponent{
                         )
                     }}
                     
-                    onEndReachedThreshold = {0.2}
+                    onEndReachedThreshold = {0.001}
 
                     onEndReached={() => {
                         // setTimeout(()=>{this.getListData()},100)
@@ -139,7 +147,9 @@ class Scoreboard extends React.PureComponent{
 
         return(
             <View style = {{flex:1, backgroundColor:'gray'}}>
-                {/* heading */}
+                {/* no. of contents */}
+                {this.getNumberOfContents()}
+                {/* heading buttons*/}
                 <View style = {{flexDirection:'row'}}>
                     <View style = {{flex:1, height:40, flexDirection:'row'}}>
                         {this.getHeadings("Name",()=>{})}
@@ -162,8 +172,8 @@ class Scoreboard extends React.PureComponent{
 
 const mapStateToProps = state => {
     return {
-        sortType: state.scoreReducer.sortType,
-        data: state.scoreReducer,
+        sortType: state.ScoreReducer.sortType,
+        data: state.ScoreReducer,
     }
 }
 

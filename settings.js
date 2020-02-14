@@ -7,8 +7,9 @@ import {
     Text,
   } from 'react-native';
 import { connect } from 'react-redux';
-import {initialSettings} from './saveSettingsReducer'
+import {initialSettings} from './reducers/SaveSettingsReducer'
 import { Dropdown } from 'react-native-material-dropdown';
+
 class Settings extends React.PureComponent{
     constructor(props){
         super(props)
@@ -47,13 +48,13 @@ class Settings extends React.PureComponent{
 
     resetSettings = ()=>{
         let restoredSettings = {
-            color: 'red',
-            speed: 2,
-            ballRadius: 3,
-            basketRadius: 3,
+            color: initialSettings.ballColor,
+            speed: initialSettings.ballSpeed,
+            ballRadius: initialSettings.ballRadius,
+            basketRadius: initialSettings.basketRadius,
         }
         this.setState({...restoredSettings})
-        let action = {type: 'saveSettings', payLoad: initialSettings}
+        let action = {type: 'resetSettings'}
         this.props.dispatch(action)
         this.props.navigation.navigate('Dashboard')
     }
@@ -191,7 +192,7 @@ class Settings extends React.PureComponent{
 const mapStateToProps = state => {
     
     return {
-        ...state.saveSettingsReducer
+        ...state.SaveSettingsReducer
     }
 }
 

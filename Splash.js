@@ -17,7 +17,15 @@ class Splash extends React.PureComponent{
             this.props.dispatch({type:'saveScore',payLoad:this.props.unsavedScore})
             this.props.dispatch({type: 'clearTempStore'})
         }
-        setTimeout(()=>{this.props.navigation.navigate('Dashboard')},1000)
+    }
+
+    componentDidMount(){
+        didBlurSubscription = this.props.navigation.addListener(
+            'willFocus',
+            payload => {
+                setTimeout(()=>{this.props.navigation.navigate('Dashboard')},1000)
+            }
+        )
     }
 
     render(){
@@ -31,7 +39,7 @@ class Splash extends React.PureComponent{
 }
 const mapStateToProps = state => {
     return {
-        ...state.tempStateReducer
+        ...state.TempStateReducer
     }
 }
 

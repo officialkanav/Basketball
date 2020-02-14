@@ -20,6 +20,7 @@ export default class Home extends React.PureComponent{
         this.backCounter = 0
         self = this.handleBackButtonClick
     }
+    
     static navigationOptions = ({navigation})=>{
         return(
             {
@@ -38,7 +39,7 @@ export default class Home extends React.PureComponent{
                                 console.log('here')
                                 this.backCounter = 2
                                 navigation.push('Setting')}}>
-                                <Image source = {{uri:'https://static.vecteezy.com/system/resources/previews/000/331/341/large_2x/vector-setting-icon.jpg'}}
+                                <Image source = {require('./assets/settings.jpg')}
                                         style = {{height:30, width: 30, marginTop: 10}}/>
                             </TouchableHighlight>
                         </View>
@@ -61,7 +62,6 @@ export default class Home extends React.PureComponent{
     }
 
     componentWillUnmount() {
-        // didBlurSubscription.removeEventListener()
     }
 
     handleBackButtonClick = ()=>{
@@ -71,6 +71,7 @@ export default class Home extends React.PureComponent{
         if(this.backCounter == 0){
             alert("Press again to exit!")
             this.backCounter = 1
+            setTimeout(()=>{this.backCounter = 0},3000)
             return true;
         }
         BackHandler.exitApp()
@@ -92,7 +93,7 @@ export default class Home extends React.PureComponent{
     render(){
         return(
             <View style = {{flex:1, backgroundColor:'#EE891D', alignItems:'center'}}>
-                <ImageBackground source = {{uri:'https://images.assetsdelivery.com/compings_v2/lar01joka/lar01joka1506/lar01joka150600363.jpg'}} 
+                <ImageBackground source = {require('./assets/home.jpg')} 
                     style = {{height:500, width: 500, alignSelf:'center'}}/>
                 <View style = {{ flexDirection:'row'}}>
                     <View style = {{marginTop:100, marginRight:20}}>{this.getButton("Play")}</View>

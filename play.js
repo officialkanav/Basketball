@@ -26,7 +26,7 @@ class Play extends React.PureComponent{
           }
         
         this.state = {
-            timer: 30,
+            timer: 10,
             score: 0,
             animator: new Animated.Value(0),
             panX: new Animated.Value(middle),
@@ -55,10 +55,10 @@ class Play extends React.PureComponent{
             ,
         
             onPanResponderRelease: (evt, gestureState) => {
-                if(gestureState.moveX<4)
-                    this.state.panX.setValue(4)
-                if(gestureState.moveX>Dimensions.get('window').width/1.2)
-                    this.state.panX.setValue(Dimensions.get('window').width/1.2)
+                if(gestureState.moveX<10)
+                    this.state.panX.setValue(10)
+                if(gestureState.moveX>Dimensions.get('window').width/1.3)
+                    this.state.panX.setValue(Dimensions.get('window').width/1.3)
                 this.setState({currentX:gestureState.moveX})
             },
             
@@ -78,6 +78,7 @@ class Play extends React.PureComponent{
         if(this.backCount == 0){
             alert("Press back again to exit game")
             this.backCount = 1
+            setTimeout(()=>{this.backCount = 0},3000)
             return true;
         }
         return false
@@ -161,8 +162,13 @@ class Play extends React.PureComponent{
                     height:50, width:100, borderRadius:15, position:'absolute', top:720, 
                     left:Dimensions.get('window').width/2.5
                 }}
-                disabled = {this.state.prevX == this.state.currentX?true:false}
-                onPress = {()=>{this.shoot()}}>
+                onPress = {()=>{
+                        if(this.state.prevX == this.state.currentX){
+                            alert('Cannot shoot from same place')
+                        }
+                        else
+                            this.shoot()
+                    }}>
                 <Text style = {{fontSize:35, color:'white'}}>Shoot</Text>
             </TouchableOpacity>
         )
@@ -252,7 +258,7 @@ class Play extends React.PureComponent{
                 {this.getTimerAndScore()}
                 
                 {/* basket and floor */}
-                <ImageBackground style = {{zIndex:-1, alignSelf:'center', height:200,width:300, marginTop:50}} source = {require('./court.jpg')}/>
+                <ImageBackground style = {{zIndex:-1, alignSelf:'center', height:200,width:300, marginTop:50}} source = {require('./assets/court.jpg')}/>
                 <View style = {{zIndex:-1, height:130, width:30, alignSelf:'center', backgroundColor:'black'}}/>
                 <View style = {{
                     backgroundColor:'brown', zIndex:this.state.zIndex, alignSelf:'center', 
@@ -274,7 +280,7 @@ class Play extends React.PureComponent{
 
 const mapStateToProps = state => {
     return {
-        ...state.saveSettingsReducer
+        ...state.SaveSettingsReducer
     }
 }
 

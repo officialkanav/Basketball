@@ -1,7 +1,7 @@
-import Home from './home';
-import Settings from './settings';
-import Scoreboard from './scoreboard'
-import Play from './play'
+import Home from './Home';
+import Settings from './Settings';
+import Scoreboard from './Scoreboard'
+import Play from './Play'
 import Splash from './Splash'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
