@@ -14,10 +14,17 @@ import {
     AlertIOS,
     Image
 } from 'react-native'
+import {
+    interpolateRightBoundary,
+    interpolateSpeed,
+    interpolateBallRadius,
+    calculateBasketRadius,
+    calculateMiddle,
+    result} from './utils/Calculators'
 import { connect } from 'react-redux';
 import CustomModal from './Modal'
 
-const middle = Dimensions.get('window').width/2.2
+const middle = calculateMiddle(Dimensions.get('window').width)
 
 class Play extends React.PureComponent{
     constructor(props){
@@ -30,7 +37,7 @@ class Play extends React.PureComponent{
           }
         
         this.state = {
-            timer: 300,
+            timer:30,
             score: 0,
             animator: new Animated.Value(0),
             panX: new Animated.Value(middle),
@@ -50,19 +57,15 @@ class Play extends React.PureComponent{
             onStartShouldSetPanResponderCapture: (evt, gestureState) => this.state.enablePanResponder,
             onMoveShouldSetPanResponder: (evt, gestureState) => this.state.enablePanResponder,
             onMoveShouldSetPanResponderCapture: (evt, gestureState) => this.state.enablePanResponder,
-            
-            onPanResponderGrant(e, gestureState){
-                
+            onPanResponderMove: (evt, gestureState) =>{
+                const rightBoundaryLimit = interpolateRightBoundary(this.props.ballRadius) * middle
+
+                if(gestureState.moveX<rightBoundaryLimit)
+                    this.state.panX.setValue(gestureState.moveX)
+                else
+                    this.state.panX.setValue(rightBoundaryLimit)
             },
-            onPanResponderMove: 
-                Animated.event([null, {moveX: this.state.panX}])
-            ,
-        
             onPanResponderRelease: (evt, gestureState) => {
-                if(gestureState.moveX<10)
-                    this.state.panX.setValue(10)
-                if(gestureState.moveX>Dimensions.get('window').width/1.3)
-                    this.state.panX.setValue(Dimensions.get('window').width/1.3)
                 this.setState({currentX:gestureState.moveX})
             },
             
@@ -87,7 +90,7 @@ class Play extends React.PureComponent{
                 AlertIOS.alert('Press again to exit game');
             }
             this.backCount = 1
-            setTimeout(()=>{this.backCount = 0},3000)
+            setTimeout(()=>{this.backCount = 0},2000)
             return true;
         }
         return false
@@ -105,18 +108,8 @@ class Play extends React.PureComponent{
         },1000)
     }
 
-    interpolateSpeed = ()=>{
-        if(this.props.ballSpeed<=3)
-            return (4-this.props.ballSpeed);
-        return 0.75
-    }
-
-    interpolateBallRadius = ()=>{
-        return this.props.ballRadius + 1
-    }
-
     calculateBallRadius = ()=>{
-        initradius = this.interpolateBallRadius()
+        initradius = interpolateBallRadius(this.props.ballRadius)
         radius = this.state.animator.interpolate({
             inputRange: [0,1.3,2],
             outputRange: [20 * initradius,10*initradius,13*initradius]
@@ -124,35 +117,18 @@ class Play extends React.PureComponent{
         return(radius)
     }
 
-    calculateBasketRadius = ()=>{
-        return(30 * (this.props.basketRadius+1))
-    }
-
-    result = ()=>{
-        value = Math.abs(this.state.currentX - middle)
-        value = value * this.props.ballSpeed
-        value = value / this.props.basketRadius
-
-        if(value<this.threshold){
-            this.setState({animationTweek:1})
-            return 'won'
-        }
-        this.setState({animationTweek:1.5})
-        return 'lost'
-    }
-
     getBall = ()=>{
         const top = this.state.animator.interpolate({
             inputRange: [0,this.state.animationTweek,2],
-            outputRange: [600,100,500]
+            outputRange: [600,80,500]
         })
         return(
                 <Animated.View {...this.panHandler.panHandlers} 
                     style = {{
-                        backgroundColor:this.props.ballColor,borderRadius:10*(this.interpolateBallRadius()), 
+                        backgroundColor:this.props.ballColor,borderRadius:10*(interpolateBallRadius(this.props.ballRadius)), 
                         height:this.calculateBallRadius(), width:this.calculateBallRadius(), 
                         position:'absolute',left:this.state.panX, top
-                }}/>   
+                    }}/>   
         )
     }
 
@@ -167,6 +143,19 @@ class Play extends React.PureComponent{
         )
     }
 
+    getBasketRing = ()=>{
+        return(
+            <View style = {{position:'absolute', top:260, alignSelf:'center',zIndex:this.state.zIndex}}>
+                <View style = {{
+                    backgroundColor:'brown', 
+                    borderRadius:10, height:10,width:calculateBasketRadius(this.props.basketRadius),
+                    marginRight:80
+                    }}>
+                </View>
+            </View>
+        )
+    }
+
     getShootButton = ()=>{
         return(
             <TouchableOpacity 
@@ -176,7 +165,7 @@ class Play extends React.PureComponent{
                     left:Dimensions.get('window').width/2.5
                 }}
                 onPress = {()=>{
-                        if(this.state.prevX == this.state.currentX){
+                        if(Math.abs(this.state.prevX-this.state.currentX)<10){
                             alert('Cannot shoot from same place')
                         }
                         else
@@ -188,7 +177,7 @@ class Play extends React.PureComponent{
     }
 
     startWinAnimation = ()=>{
-        const interpolationFactor = this.interpolateSpeed()
+        const interpolationFactor = interpolateSpeed(this.props.ballSpeed)
 
         Animated.parallel([
             Animated.timing(this.state.panX,{
@@ -221,7 +210,7 @@ class Play extends React.PureComponent{
 
     startLosingAnimation = ()=>{
         let direction = null
-        const interpolationFactor = this.interpolateSpeed()
+        const interpolationFactor = interpolateSpeed(this.props.ballSpeed)
 
         if(this.state.currentX<165)
             direction = 100
@@ -248,23 +237,25 @@ class Play extends React.PureComponent{
 
         setTimeout(()=>{
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-            this.setState({animator: new Animated.Value(0), currentX:direction, enablePanResponder:true})
+            this.setState({animator: new Animated.Value(0), currentX:middle, enablePanResponder:true, panX: new Animated.Value(middle)})
             }
         ,2000*interpolationFactor)
     }
 
     shoot = ()=>{
         this.setState({prevX:this.state.currentX, enablePanResponder:false})
-        if(this.result() == 'won')
-            this.startWinAnimation()
-        else
-            this.startLosingAnimation()
+        if(result(this.state.currentX, middle, this.props.ballSpeed, this.props.basketRadius, this.threshold) == 'won'){
+            this.setState({animationTweek:1},this.startWinAnimation)
+            
+        }
+        else{
+            this.setState({animationTweek:1.5},this.startLosingAnimation)
+        }      
     }
     
     render(){
-        url = 'https://c8.alamy.com/comp/W72RK2/dark-brown-pine-wooden-empty-space-perspective-wall-for-display-or-montage-product-design-W72RK2.jpg'
         return(
-            <ImageBackground source = {{uri:url}} style = {{height:900, width:500}}>
+            <ImageBackground source = {require('./assets/backgroundPlay.jpg')} style = {{height:900, width:500}}>
                 {/* Modal */}
                 <CustomModal modalVisible = {this.state.modalVisible} score = {this.state.score} />
                
@@ -274,14 +265,7 @@ class Play extends React.PureComponent{
                 {/* basket and floor */}
                 <Image style = {{ alignSelf:'center', height:170,width:250, marginTop:70, marginRight:80}} source = {require('./assets/court.jpg')}/>
                 <View style = {{height:220, width:20, alignSelf:'center', backgroundColor:'black', marginRight:80}}/>
-                <View style = {{position:'absolute', top:260, alignSelf:'center',zIndex:this.state.zIndex}}>
-                    <View style = {{
-                        backgroundColor:'brown', 
-                        borderRadius:10, height:10,width:this.calculateBasketRadius(),
-                        marginRight:80
-                        }}>
-                    </View>
-                </View>
+                {this.getBasketRing()}
                 <View style = {{backgroundColor:'black', height:2, width:450}}></View>
                
                 {/* ball */}
@@ -292,36 +276,6 @@ class Play extends React.PureComponent{
             </ImageBackground>
         )
     }
-
-    // render(){
-    //     url = 'https://c8.alamy.com/comp/W72RK2/dark-brown-pine-wooden-empty-space-perspective-wall-for-display-or-montage-product-design-W72RK2.jpg'
-    //     return(
-    //         <View style = {{flex:1, backgroundColor:'#EE891D'}}>
-    //             {/* Modal */}
-    //             <CustomModal modalVisible = {this.state.modalVisible} score = {this.state.score} />
-               
-    //             {/* timer and score */}
-    //             {this.getTimerAndScore()}
-                
-    //             {/* basket and floor */}
-    //             <ImageBackground style = {{zIndex:-1, alignSelf:'center', height:200,width:300, marginTop:50}} source = {require('./assets/court.jpg')}/>
-    //             <View style = {{zIndex:-1, height:130, width:30, alignSelf:'center', backgroundColor:'black'}}/>
-    //             <View style = {{
-    //                 backgroundColor:'brown', zIndex:this.state.zIndex, alignSelf:'center', 
-    //                 position:'absolute',top:270,borderRadius:10, height:10,width:this.calculateBasketRadius(),
-    //                 marginTop:0}}>
-    //             </View>
-    //             <View style = {{backgroundColor:'black', height:2, width:450}}></View>
-    //             <View style = {{backgroundColor:'gray', height:500, width:450}}></View>
-               
-    //             {/* ball */}
-    //             {this.getBall()}
-                
-    //             {/* button */}
-    //             {this.getShootButton()}
-    //         </View>
-    //     )
-    // }
 }
 
 const mapStateToProps = state => {

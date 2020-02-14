@@ -287,6 +287,7 @@ export default function scoreReducer(state = initialScores, action){
         case 'sortByDate':
             return sortByDate(state)
         case 'saveScore':
+            console.log("SAVING SCORE: "+JSON.stringify(action.payLoad))
             return saveScoreInTwo(state,action.payLoad)
     } 
     return state;
