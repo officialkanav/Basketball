@@ -6,10 +6,10 @@ import {
     TouchableHighlight,
     Image,
     BackHandler,
-    ImageBackground
+    ToastAndroid,
+    Platform,
+    AlertIOS,
   } from 'react-native';
-
-let self = () => {}
   
 export default class Home extends React.PureComponent{
     constructor(props){
@@ -18,7 +18,6 @@ export default class Home extends React.PureComponent{
 
         }
         this.backCounter = 0
-        self = this.handleBackButtonClick
     }
     
     static navigationOptions = ({navigation})=>{
@@ -28,6 +27,7 @@ export default class Home extends React.PureComponent{
                 headerTitleStyle : {
                     color:'gray',
                 },
+                headerLeft:null,
                 headerStyle : {
                     backgroundColor:'black',
                 },
@@ -35,10 +35,9 @@ export default class Home extends React.PureComponent{
                 headerRight : ()=>(
                         <View style = {{flex:1}}>
                             <TouchableHighlight onPress = {()=>{
-                                BackHandler.removeEventListener('hardwareBackPress', self);
-                                console.log('here')
-                                this.backCounter = 2
-                                navigation.push('Setting')}}>
+                                BackHandler.removeEventListener('hardwareBackPress', navigation.state.params.handleBackButtonClick);
+                                navigation.navigate('Setting')}
+                            }>
                                 <Image source = {require('./assets/settings.jpg')}
                                         style = {{height:30, width: 30, marginTop: 10}}/>
                             </TouchableHighlight>
@@ -49,29 +48,28 @@ export default class Home extends React.PureComponent{
     }
     
     componentDidMount(){
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
-        self = this.handleBackButtonClick
+        this.props.navigation.setParams({handleBackButtonClick: this.handleBackButtonClick})
+    
         didBlurSubscription = this.props.navigation.addListener(
             'willFocus',
             payload => {
-                self = this.handleBackButtonClick
                 this.backCounter = 0
                 BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
             }
         )
     }
 
-    componentWillUnmount() {
-    }
-
     handleBackButtonClick = ()=>{
-        if(this.backCounter == 2){
-            return true
-        }
         if(this.backCounter == 0){
-            alert("Press again to exit!")
+
+            if (Platform.OS === 'android'){
+                ToastAndroid.show('Press again to exit app', ToastAndroid.SHORT)
+            } 
+            else{
+                AlertIOS.alert('Press again to exit app');
+            }
             this.backCounter = 1
-            setTimeout(()=>{this.backCounter = 0},3000)
+            setTimeout(()=>{this.backCounter = 0},2000)
             return true;
         }
         BackHandler.exitApp()
@@ -93,7 +91,7 @@ export default class Home extends React.PureComponent{
     render(){
         return(
             <View style = {{flex:1, backgroundColor:'#EE891D', alignItems:'center'}}>
-                <ImageBackground source = {require('./assets/home.jpg')} 
+                <Image source = {require('./assets/home.jpg')} 
                     style = {{height:500, width: 500, alignSelf:'center'}}/>
                 <View style = {{ flexDirection:'row'}}>
                     <View style = {{marginTop:100, marginRight:20}}>{this.getButton("Play")}</View>

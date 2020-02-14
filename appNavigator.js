@@ -15,10 +15,6 @@ export default AppNavigator = createAppContainer(createStackNavigator({
     },
     Dashboard: {
       screen: Home,
-      navigationOptions:{
-        headerLeft: null,
-        headerTitleStyle : {color:'gray'}
-      }
     },
     Setting: {
       screen: Settings,

@@ -8,7 +8,11 @@ import {
     Dimensions,
     BackHandler,
     PanResponder,
-    ImageBackground
+    ImageBackground,
+    Platform,
+    ToastAndroid,
+    AlertIOS,
+    Image
 } from 'react-native'
 import { connect } from 'react-redux';
 import CustomModal from './Modal'
@@ -26,7 +30,7 @@ class Play extends React.PureComponent{
           }
         
         this.state = {
-            timer: 10,
+            timer: 300,
             score: 0,
             animator: new Animated.Value(0),
             panX: new Animated.Value(middle),
@@ -34,7 +38,7 @@ class Play extends React.PureComponent{
             currentX: middle,
             modalVisible: false,
             prevX: -1000,
-            zIndex:-1,
+            zIndex:0,
             enablePanResponder: true
         }
 
@@ -76,7 +80,12 @@ class Play extends React.PureComponent{
 
     handleBackButtonClick = ()=>{
         if(this.backCount == 0){
-            alert("Press back again to exit game")
+            if (Platform.OS === 'android'){
+                ToastAndroid.show('Press again to exit game', ToastAndroid.SHORT)
+            } 
+            else{
+                AlertIOS.alert('Press again to exit game');
+            }
             this.backCount = 1
             setTimeout(()=>{this.backCount = 0},3000)
             return true;
@@ -102,8 +111,12 @@ class Play extends React.PureComponent{
         return 0.75
     }
 
+    interpolateBallRadius = ()=>{
+        return this.props.ballRadius + 1
+    }
+
     calculateBallRadius = ()=>{
-        initradius = this.props.ballRadius
+        initradius = this.interpolateBallRadius()
         radius = this.state.animator.interpolate({
             inputRange: [0,1.3,2],
             outputRange: [20 * initradius,10*initradius,13*initradius]
@@ -112,7 +125,7 @@ class Play extends React.PureComponent{
     }
 
     calculateBasketRadius = ()=>{
-        return(30 * this.props.basketRadius)
+        return(30 * (this.props.basketRadius+1))
     }
 
     result = ()=>{
@@ -131,12 +144,12 @@ class Play extends React.PureComponent{
     getBall = ()=>{
         const top = this.state.animator.interpolate({
             inputRange: [0,this.state.animationTweek,2],
-            outputRange: [600,130,400]
+            outputRange: [600,100,500]
         })
         return(
                 <Animated.View {...this.panHandler.panHandlers} 
                     style = {{
-                        backgroundColor:this.props.ballColor,borderRadius:10*this.props.ballRadius, 
+                        backgroundColor:this.props.ballColor,borderRadius:10*(this.interpolateBallRadius()), 
                         height:this.calculateBallRadius(), width:this.calculateBallRadius(), 
                         position:'absolute',left:this.state.panX, top
                 }}/>   
@@ -189,7 +202,7 @@ class Play extends React.PureComponent{
         ])
         .start()
 
-        setTimeout(()=>{this.setState({zIndex:1})},800*interpolationFactor)
+        setTimeout(()=>{this.setState({zIndex:1})},600*interpolationFactor)
 
         setTimeout(()=>{
             Animated.spring(this.state.animator, {
@@ -201,7 +214,7 @@ class Play extends React.PureComponent{
         setTimeout(()=>{
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
             this.setState({animator: new Animated.Value(0), currentX:middle, enablePanResponder:true},
-            ()=>{this.state.timer>0?this.setState({score:this.state.score+1, zIndex:-1}):this.setState({zIndex:-1})})    
+            ()=>{this.state.timer>0?this.setState({score:this.state.score+1, zIndex:0}):this.setState({zIndex:0})})    
         }
         ,2000*interpolationFactor)
     }
@@ -247,10 +260,11 @@ class Play extends React.PureComponent{
         else
             this.startLosingAnimation()
     }
-
+    
     render(){
+        url = 'https://c8.alamy.com/comp/W72RK2/dark-brown-pine-wooden-empty-space-perspective-wall-for-display-or-montage-product-design-W72RK2.jpg'
         return(
-            <View style = {{flex:1, backgroundColor:'#EE891D'}}>
+            <ImageBackground source = {{uri:url}} style = {{height:900, width:500}}>
                 {/* Modal */}
                 <CustomModal modalVisible = {this.state.modalVisible} score = {this.state.score} />
                
@@ -258,24 +272,56 @@ class Play extends React.PureComponent{
                 {this.getTimerAndScore()}
                 
                 {/* basket and floor */}
-                <ImageBackground style = {{zIndex:-1, alignSelf:'center', height:200,width:300, marginTop:50}} source = {require('./assets/court.jpg')}/>
-                <View style = {{zIndex:-1, height:130, width:30, alignSelf:'center', backgroundColor:'black'}}/>
-                <View style = {{
-                    backgroundColor:'brown', zIndex:this.state.zIndex, alignSelf:'center', 
-                    position:'absolute',top:270,borderRadius:10, height:10,width:this.calculateBasketRadius(),
-                    marginTop:0}}>
+                <Image style = {{ alignSelf:'center', height:170,width:250, marginTop:70, marginRight:80}} source = {require('./assets/court.jpg')}/>
+                <View style = {{height:220, width:20, alignSelf:'center', backgroundColor:'black', marginRight:80}}/>
+                <View style = {{position:'absolute', top:260, alignSelf:'center',zIndex:this.state.zIndex}}>
+                    <View style = {{
+                        backgroundColor:'brown', 
+                        borderRadius:10, height:10,width:this.calculateBasketRadius(),
+                        marginRight:80
+                        }}>
+                    </View>
                 </View>
                 <View style = {{backgroundColor:'black', height:2, width:450}}></View>
-                <View style = {{backgroundColor:'gray', height:500, width:450}}></View>
                
                 {/* ball */}
                 {this.getBall()}
                 
                 {/* button */}
                 {this.getShootButton()}
-            </View>
+            </ImageBackground>
         )
     }
+
+    // render(){
+    //     url = 'https://c8.alamy.com/comp/W72RK2/dark-brown-pine-wooden-empty-space-perspective-wall-for-display-or-montage-product-design-W72RK2.jpg'
+    //     return(
+    //         <View style = {{flex:1, backgroundColor:'#EE891D'}}>
+    //             {/* Modal */}
+    //             <CustomModal modalVisible = {this.state.modalVisible} score = {this.state.score} />
+               
+    //             {/* timer and score */}
+    //             {this.getTimerAndScore()}
+                
+    //             {/* basket and floor */}
+    //             <ImageBackground style = {{zIndex:-1, alignSelf:'center', height:200,width:300, marginTop:50}} source = {require('./assets/court.jpg')}/>
+    //             <View style = {{zIndex:-1, height:130, width:30, alignSelf:'center', backgroundColor:'black'}}/>
+    //             <View style = {{
+    //                 backgroundColor:'brown', zIndex:this.state.zIndex, alignSelf:'center', 
+    //                 position:'absolute',top:270,borderRadius:10, height:10,width:this.calculateBasketRadius(),
+    //                 marginTop:0}}>
+    //             </View>
+    //             <View style = {{backgroundColor:'black', height:2, width:450}}></View>
+    //             <View style = {{backgroundColor:'gray', height:500, width:450}}></View>
+               
+    //             {/* ball */}
+    //             {this.getBall()}
+                
+    //             {/* button */}
+    //             {this.getShootButton()}
+    //         </View>
+    //     )
+    // }
 }
 
 const mapStateToProps = state => {

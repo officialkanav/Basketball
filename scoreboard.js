@@ -4,7 +4,6 @@ import {
     Text,
     TouchableOpacity,
     FlatList,
-    Button
 } from 'react-native'
 import { connect } from 'react-redux';
 
@@ -22,7 +21,6 @@ class Scoreboard extends React.PureComponent{
     }
     
     componentDidMount(){
-        this.getListData()
         didBlurSubscription = this.props.navigation.addListener(
             'willFocus',
             payload => {
@@ -34,7 +32,7 @@ class Scoreboard extends React.PureComponent{
     }
 
     componentDidUpdate(prevProps, prevState, snapshot){
-        
+        // update after sorting
         if(prevProps!=this.props){
             this.listData = []
             this.setState({numberOfItemsInList: 0},()=>{this.getListData()})    
@@ -126,6 +124,7 @@ class Scoreboard extends React.PureComponent{
                                         </Text>
                                     </View>
                                 </View>
+                                {/* hr */}
                                 <View style = {{height:2, width:'100%', backgroundColor:'black'}}/>
                             </View>
                         )
@@ -134,7 +133,6 @@ class Scoreboard extends React.PureComponent{
                     onEndReachedThreshold = {0.001}
 
                     onEndReached={() => {
-                        // setTimeout(()=>{this.getListData()},100)
                         this.getListData()
                         }
                     }
@@ -147,7 +145,7 @@ class Scoreboard extends React.PureComponent{
 
         return(
             <View style = {{flex:1, backgroundColor:'gray'}}>
-                {/* no. of contents */}
+                {/* count of items displayed*/}
                 {this.getNumberOfContents()}
                 {/* heading buttons*/}
                 <View style = {{flexDirection:'row'}}>
