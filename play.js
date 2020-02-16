@@ -212,8 +212,8 @@ class Play extends React.PureComponent{
         let direction = null
         const interpolationFactor = interpolateSpeed(this.props.ballSpeed)
 
-        if(this.state.currentX<165)
-            direction = 100
+        if(this.state.currentX<180)
+            direction = 120
         else    
             direction = 250
 
@@ -244,7 +244,7 @@ class Play extends React.PureComponent{
 
     shoot = ()=>{
         this.setState({prevX:this.state.currentX, enablePanResponder:false})
-        if(result(this.state.currentX, middle, this.props.ballSpeed, this.props.basketRadius, this.threshold) == 'won'){
+        if(result(this.state.currentX, 180, this.props.ballSpeed, this.props.basketRadius, this.threshold) == 'won'){
             this.setState({animationTweek:1},this.startWinAnimation)
             
         }
