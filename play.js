@@ -37,7 +37,7 @@ class Play extends React.PureComponent{
           }
         
         this.state = {
-            timer:15,
+            timer:30,
             score: 0,
             animator: new Animated.Value(0),
             panX: new Animated.Value(middle),
@@ -66,8 +66,6 @@ class Play extends React.PureComponent{
                     this.state.panX.setValue(rightBoundaryLimit)
             },
             onPanResponderRelease: (evt, gestureState) => {
-                console.log(middle)
-                console.log(gestureState.moveX)
                 this.setState({currentX:gestureState.moveX})
             },
             
