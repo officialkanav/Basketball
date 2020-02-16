@@ -1,6 +1,6 @@
 const initialScores = {
-    sortType:'sortedOnScores',
-    sortedOnScores: {
+    sortType:'null',
+    scoreObject: {
       type: 'desc',
       scores: [
           {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
@@ -33,252 +33,100 @@ const initialScores = {
           {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
           {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
           {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-      ]
-    },
-  
-    sortedOnDate: {
-      type: 'asc',
-      scores: [
-        {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-          {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
       ]
     }
-  };
-  
-function binarySearchAscScore(element, array, start, end) {
-    start = start || 0;
-    end = end || array.length;
-    
-    var pivot = parseInt(start + (end - start) / 2, 10);
-    
-    if (end-start <= 1 || array[pivot].score === element) 
-        return pivot;
-    if (array[pivot].score < element) 
-        return binarySearchAscScore(element, array, pivot, end);
-    else 
-        return binarySearchAscScore(element, array, start, pivot);
-    
 }
 
-function binarySearchDescScore(element, array, start, end) {
-    start = start || 0;
-    end = end || array.length;
-    
-    var pivot = parseInt(start + (end - start) / 2, 10);
-    
-    if (end-start <= 1 || array[pivot].score === element) 
-        return pivot;
-    if (array[pivot].score < element) 
-        return binarySearchDescScore(element, array, start, pivot);
-    else 
-        return binarySearchDescScore(element, array, pivot, end);
-    
+ascendingSort = (scores, key)=>{
+    scores.sort(function(a, b){
+        if(a[key] < b[key]) { return -1; }
+        if(a[key] > b[key]) { return 1; }
+        return 0;
+    })
 }
 
-function binarySearchAscDate(element, array, start, end) {
-    start = start || 0;
-    end = end || array.length;
-    
-    var pivot = parseInt(start + (end - start) / 2, 10);
-    
-    if (end-start <= 1 || array[pivot].unixTime === element) 
-        return pivot;
-    if (array[pivot].unixTime < element) 
-        return binarySearchAscDate(element, array, pivot, end);
-    else 
-        return binarySearchAscDate(element, array, start, pivot);
-}
-
-function binarySearchDescDate(element, array, start, end) {
-    start = start || 0;
-    end = end || array.length;
-    
-    var pivot = parseInt(start + (end - start) / 2, 10);
-    
-    if (end-start <= 1 || array[pivot].unixTime === element) 
-        return pivot;
-    if (array[pivot].unixTime < element) 
-        return binarySearchDescDate(element, array, start, pivot);
-    else 
-        return binarySearchDescDate(element, array, pivot, end);
-    
+descendingSort = (scores, key)=>{
+    scores.sort(function(a, b){
+        if(a[key] > b[key]) { return -1; }
+        if(a[key] < b[key]) { return 1; }
+        return 0;
+    })
 }
 
 sortByScores = (state)=>{
-    let tempScore = {...state}
-    SOS = tempScore.sortedOnScores
-    if(SOS.type === 'asc'){
-        SOS.type = 'desc'
-    }
-    else{
-        SOS.type = 'asc'
-    }
-    SOS.scores = SOS.scores.reverse()
-    tempScore.sortedOnScores = SOS;  
-    tempScore.sortType = 'sortedOnScores' 
-    return tempScore
-}
-
-sortByDate = (state)=>{
-    let tempScore = {...state}
-    SOD = tempScore.sortedOnDate
-    if(SOD.type === 'asc'){
-        SOD.type = 'desc'
-    }
-    else{
-        SOD.type = 'asc'
-    }
-    SOD.scores = SOD.scores.reverse()
-    tempScore.sortedOnDate = SOD;   
-    tempScore.sortType = 'sortedOnDate' 
-    return tempScore
-}
-
-saveDate = (scoreObject, type, scores)=>{
-
-    if(type == 'asc'){
-        let loc = binarySearchAscDate(scoreObject.unixTime, scores, 0, scores.length)
-        if(scores[loc].unixTime>=scoreObject.unixTime){
-            scores.splice(loc, 0, scoreObject);
-        }
-        else{
-            scores.splice(loc + 1, 0, scoreObject);
-        }
-        return scores
-    }
-    else{
-        let loc = binarySearchDescDate(scoreObject.unixTime, scores, 0, scores.length)
-        if(scores[loc].unixTime>scoreObject.unixTime){
-            scores.splice(loc + 1, 0, scoreObject);
-        }
-        else{
-            scores.splice((loc), 0, scoreObject);
-        }
-        return scores
-    }
-
-}
-
-saveScore = (scoreObject, type, scores)=>{
-    
-    if(type == 'asc'){
-        let loc = binarySearchAscScore(scoreObject.score, scores, 0, scores.length)
-        if(scores[loc].score>=scoreObject.score){
-            scores.splice(loc, 0, scoreObject);
-        }
-        else{
-            scores.splice(loc + 1, 0, scoreObject);
-        }
-        return scores
-    }
-    else{
-        let loc = binarySearchDescScore(scoreObject.score, scores, 0, scores.length)
-
-        if(scores[loc].score>scoreObject.score){
-            scores.splice(loc + 1, 0, scoreObject);
-        }
-        else{
-            scores.splice((loc), 0, scoreObject);
-        }
-        return scores
-    }
-}
-
-saveScoreInTwo = (state,scoreObject)=>{
     tempState = {...state}
-    tempState.sortedOnDate.scores = saveDate(scoreObject,state.sortedOnDate.type,state.sortedOnDate.scores)
-    tempState.sortedOnScores.scores = saveScore(scoreObject,state.sortedOnScores.type,state.sortedOnScores.scores)
+    scores = tempState.scoreObject.scores
+
+    if(tempState.sortType == 'sortedOnScores'){
+        if(tempState.scoreObject.type == 'desc'){
+            ascendingSort(scores,'score')
+            tempState.scoreObject.type = 'asc'
+        }
+        else{
+            descendingSort(scores,'score')
+            tempState.scoreObject.type = 'desc'
+        }
+    }
+    else{
+        tempState.scoreObject.type = 'desc'
+        descendingSort(scores,'score')
+    }
+    tempState.sortType = 'sortedOnScores'
+    tempState.scoreObject.scores = scores
     return tempState
 }
 
+sortByDate = (state)=>{
+    tempState = {...state}
+    scores = tempState.scoreObject.scores
+
+    if(tempState.sortType == 'sortedOnDate'){
+        if(tempState.scoreObject.type == 'desc'){
+            ascendingSort(scores,'unixTime')
+            tempState.scoreObject.type = 'asc'
+        }
+        else{
+            descendingSort(scores,'unixTime')
+            tempState.scoreObject.type = 'desc'
+        }
+    }
+    else{
+        tempState.scoreObject.type = 'desc'
+        descendingSort(scores,'unixTime')
+    }
+    tempState.sortType = 'sortedOnDate'
+    tempState.scoreObject.scores = scores
+    return tempState
+}
+
+sortByName = (state)=>{
+    tempState = {...state}
+    scores = tempState.scoreObject.scores
+
+    if(tempState.sortType == 'sortedOnName'){
+        if(tempState.scoreObject.type == 'desc'){
+            scores.sort((a, b) => a.name.localeCompare(b.name))
+            tempState.scoreObject.type = 'asc'
+        }
+        else{
+            scores.sort((a, b) => b.name.localeCompare(a.name))
+            tempState.scoreObject.type = 'desc'
+        }
+    }
+    else{
+        scores.sort((a, b) => b.name.localeCompare(a.name))
+        tempState.scoreObject.type = 'desc'
+    }
+    tempState.sortType = 'sortedOnName'
+    tempState.scoreObject.scores = scores
+    return tempState
+}
+
+saveScore = (state, scoreObject)=>{
+    tempState = {...state}
+    tempState.scoreObject.scores.push(scoreObject)
+    return tempState
+}
 
 export default function scoreReducer(state = initialScores, action){
     switch(action.type){
@@ -286,9 +134,10 @@ export default function scoreReducer(state = initialScores, action){
             return sortByScores(state)
         case 'sortByDate':
             return sortByDate(state)
+        case 'sortByName':
+            return sortByName(state)
         case 'saveScore':
-            console.log("SAVING SCORE: "+JSON.stringify(action.payLoad))
-            return saveScoreInTwo(state,action.payLoad)
+            return saveScore(state, action.payLoad)
     } 
     return state;
   }

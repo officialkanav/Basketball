@@ -17,6 +17,7 @@ class Scoreboard extends React.PureComponent{
         this.listData = []
         this.state = {
             numberOfItemsInList: 0,
+            buttonColors : ['gray','silver','gray']
         }
     }
     
@@ -24,9 +25,10 @@ class Scoreboard extends React.PureComponent{
         didBlurSubscription = this.props.navigation.addListener(
             'willFocus',
             payload => {
-              this.listData = []
-              this.setState({numberOfItemsInList: 0})
-              this.getListData()
+                this.props.dispatch({type:'sortByScores'})
+                this.listData = []
+                this.setState({numberOfItemsInList: 0})
+                this.getListData()
             }
         )
     }
@@ -45,33 +47,33 @@ class Scoreboard extends React.PureComponent{
     }
 
     getListData = ()=>{
-        if(this.state.numberOfItemsInList+15 < this.props.data[this.props.sortType].scores.length){
+        if(this.state.numberOfItemsInList+15 < this.props.data.length){
             this.listData = this.listData.concat(
-                this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+15)
+                this.props.data.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+15)
             )
             this.setState({numberOfItemsInList: this.state.numberOfItemsInList+15})
         }
-        else if(this.state.numberOfItemsInList == this.props.data[this.props.sortType].scores.length){
+        else if(this.state.numberOfItemsInList == this.props.data.length){
         }
         else{
             this.listData = this.listData.concat(
-                this.props.data[this.props.sortType].scores.slice(this.state.numberOfItemsInList, this.props.data[this.props.sortType].length)
+                this.props.data.slice(this.state.numberOfItemsInList, this.props.data.length)
             )
-            this.setState({numberOfItemsInList: this.props.data[this.props.sortType].scores.length})
+            this.setState({numberOfItemsInList: this.props.data.length})
         }
     }
 
     getNumberOfContents = ()=>{
         return(
             <View style = {{width:450,height:40, backgroundColor:'gray'}}>
-                <Text style = {{alignSelf:'center', fontSize:25}}>{'Displaying: '+this.listData.length+' / '+this.props.data[this.props.sortType].scores.length}</Text>
+                <Text style = {{alignSelf:'center', fontSize:25}}>{'Displaying: '+this.listData.length+' / '+this.props.data.length}</Text>
             </View>
         )
     }
 
-    getHeadings = (name, onPressCallback)=>{
+    getHeadings = (name, onPressCallback, colorIndex)=>{
         return(
-            <View style = {{flexDirection:'row', flex:1}}>
+            <View style = {{flexDirection:'row', flex:1, backgroundColor:this.state.buttonColors[colorIndex]}}>
                 <TouchableOpacity style = {{flex:1}}
                     onPress = {onPressCallback}>
                     <Text style = {{fontWeight:'500',fontSize:25, alignSelf:'center'}}>{name}</Text>
@@ -81,11 +83,18 @@ class Scoreboard extends React.PureComponent{
     }
 
     onPressScoreCallback = ()=>{
+        this.setState({buttonColors:['gray','silver','gray']})
         this.props.dispatch({type:'sortByScores'})
     }
 
     onPressDateCallback = ()=>{
+        this.setState({buttonColors:['gray','gray','silver']})
         this.props.dispatch({type:'sortByDate'})
+    }
+
+    onPressNameCallback = ()=>{
+        this.setState({buttonColors:['silver','gray','gray']})
+        this.props.dispatch({type:'sortByName'})
     }
 
     getList = ()=>{
@@ -95,7 +104,7 @@ class Scoreboard extends React.PureComponent{
                 <FlatList 
                     
                     data = {this.listData} 
-                    extraData = {this.props.sortType,this.state.numberOfItemsInList}
+                    extraData = {this.props.sortType,this.props.sortingOrder,this.state.numberOfItemsInList}
                     showsVerticalScrollIndicator = {false}
                     
                     renderItem = {({item})=>{
@@ -150,9 +159,9 @@ class Scoreboard extends React.PureComponent{
                 {/* heading buttons*/}
                 <View style = {{flexDirection:'row'}}>
                     <View style = {{flex:1, height:40, flexDirection:'row'}}>
-                        {this.getHeadings("Name",()=>{})}
-                        {this.getHeadings("Score", this.onPressScoreCallback)}
-                        {this.getHeadings("Date / Time", this.onPressDateCallback)}
+                        {this.getHeadings("Name",this.onPressNameCallback,0)}
+                        {this.getHeadings("Score", this.onPressScoreCallback,1)}
+                        {this.getHeadings("Date / Time", this.onPressDateCallback,2)}
                     </View>
                 </View>
 
@@ -171,7 +180,8 @@ class Scoreboard extends React.PureComponent{
 const mapStateToProps = state => {
     return {
         sortType: state.ScoreReducer.sortType,
-        data: state.ScoreReducer,
+        data: state.ScoreReducer.scoreObject.scores,
+        sortingOrder: state.ScoreReducer.scoreObject.type
     }
 }
 

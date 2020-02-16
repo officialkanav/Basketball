@@ -6,7 +6,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 // read combineEpics 
 const persistConfig = {
-    key: 'temp6',
+    key: 'temp3',
     storage: AsyncStorage,
     stateReconciler: autoMergeLevel2 
    }
