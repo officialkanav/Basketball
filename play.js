@@ -66,7 +66,11 @@ class Play extends React.PureComponent{
                     this.state.panX.setValue(rightBoundaryLimit)
             },
             onPanResponderRelease: (evt, gestureState) => {
-                this.setState({currentX:gestureState.moveX})
+                const rightBoundaryLimit = interpolateRightBoundary(this.props.ballRadius) * middle
+                if(gestureState.moveX<rightBoundaryLimit)
+                    this.setState({currentX:gestureState.moveX})
+                else
+                    this.setState({currentX:rightBoundaryLimit})
             },
             
           })
@@ -200,13 +204,12 @@ class Play extends React.PureComponent{
         setTimeout(()=>{
             Animated.spring(this.state.animator, {
             toValue: 2,
-            duration: 2000*interpolationFactor,
             damping:5
             }).start()},1000*interpolationFactor)
 
         setTimeout(()=>{
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-            this.setState({animator: new Animated.Value(0), currentX:middle, enablePanResponder:true},
+            this.setState({animator: new Animated.Value(0), enablePanResponder:true, panX: new Animated.Value(this.state.currentX)},
             ()=>{this.state.timer>0?this.setState({score:this.state.score+1, zIndex:0}):this.setState({zIndex:0})})    
         }
         ,2000*interpolationFactor)
@@ -235,13 +238,12 @@ class Play extends React.PureComponent{
         setTimeout(()=>{
             Animated.spring(this.state.animator, {
             toValue: 2,
-            duration: 2000*interpolationFactor,
             damping:5
             }).start()},1000*interpolationFactor)
 
         setTimeout(()=>{
             LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
-            this.setState({animator: new Animated.Value(0), currentX:middle, enablePanResponder:true, panX: new Animated.Value(middle)})
+            this.setState({animator: new Animated.Value(0), enablePanResponder:true, panX: new Animated.Value(this.state.currentX)})
             }
         ,2000*interpolationFactor)
     }

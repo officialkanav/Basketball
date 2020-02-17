@@ -23,7 +23,6 @@ export default AppNavigator = createAppContainer(createStackNavigator({
         headerTitleStyle : {color:'gray'},
         title: "Settings",
         headerTintColor: 'gray',
-        headerLeft: null,
       },
     },
     Scoreboard: {
