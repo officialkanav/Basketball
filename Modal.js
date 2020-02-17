@@ -41,7 +41,20 @@ class CustomModal extends React.PureComponent{
             this.object.name = this.state.name
             this.props.dispatch({type:'saveScore',payLoad:this.object})
             this.props.dispatch({type: 'clearTempStore'})
+            this.props.navigation.navigate('Dashboard')
+        }
+    }
 
+    submitAndReplayOnPress = ()=>{
+        if(this.state.name.length == 0){
+            alert("Name please")
+        }
+        else{
+            this.setState({disableSubmit:true})
+            this.object.name = this.state.name
+            this.props.dispatch({type:'saveScore',payLoad:this.object})
+            this.props.dispatch({type: 'clearTempStore'})
+            setTimeout(()=>{this.props.navigation.navigate('Play')},10)
             this.props.navigation.navigate('Dashboard')
         }
     }
@@ -80,13 +93,23 @@ class CustomModal extends React.PureComponent{
 
     getSubmitButton = ()=>{
         return(
-            <View style = {{alignItems:'center',marginTop:100}}>
-                <TouchableOpacity style = {{backgroundColor:'black', borderRadius:10}}
-                    onPress = {this.submitOnPress}
-                    disabled = {this.state.disableSubmit}
-                    >
-                    <Text style = {{color:'white', fontSize:40}}>Submit</Text>
-                </TouchableOpacity>
+            <View>
+                <View style = {{alignItems:'center',marginTop:100}}>
+                    <TouchableOpacity style = {{backgroundColor:'black', borderRadius:10}}
+                        onPress = {this.submitOnPress}
+                        disabled = {this.state.disableSubmit}
+                        >
+                        <Text style = {{color:'white', fontSize:40}}>Submit</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style = {{alignItems:'center',marginTop:100}}>
+                    <TouchableOpacity style = {{backgroundColor:'black', borderRadius:10}}
+                        onPress = {this.submitAndReplayOnPress}
+                        disabled = {this.state.disableSubmit}
+                        >
+                        <Text style = {{color:'white', fontSize:40}}>{'Submit&Replay'}</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }
@@ -113,7 +136,6 @@ class CustomModal extends React.PureComponent{
                     {this.getScore()}
 
                     {this.getSubmitButton()}
-
                 </View>
 
             </Modal>

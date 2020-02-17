@@ -15,7 +15,6 @@ export default fetchDate = (score)=>{
                     unixTime: responseJson.unixtime,
                     dateAndTime: dateTime,
                 }
-                console.log('returning from fetch')
 
                 return dateObject;
             })

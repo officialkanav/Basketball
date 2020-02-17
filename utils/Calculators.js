@@ -16,6 +16,17 @@ export function calculateBasketRadius(basketRadius){
     return(30 * (basketRadius+1))
 }
 
+export function calculateBasketHeight(basketRadius){
+    switch(basketRadius){
+        case 1: return 50
+        case 2: return 65
+        case 3: return 85
+        case 4: return 105
+        case 5: return 120
+    }
+    return 120
+}
+
 export function calculateMiddle(width){
     return width/2.2 + 7
 }

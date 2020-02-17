@@ -19,6 +19,7 @@ import {
     interpolateSpeed,
     interpolateBallRadius,
     calculateBasketRadius,
+    calculateBasketHeight,
     calculateMiddle,
     result} from './utils/Calculators'
 import { connect } from 'react-redux';
@@ -146,12 +147,11 @@ class Play extends React.PureComponent{
     getBasketRing = ()=>{
         return(
             <View style = {{position:'absolute', top:260, alignSelf:'center',zIndex:this.state.zIndex}}>
-                <View style = {{
-                    backgroundColor:'brown', 
-                    borderRadius:10, height:10,width:calculateBasketRadius(this.props.basketRadius),
+                <Image style = {{
+                    borderRadius:10, height:calculateBasketHeight(this.props.basketRadius),width:calculateBasketRadius(this.props.basketRadius),
                     marginRight:80
-                    }}>
-                </View>
+                    }} source = {{uri:'https://cdn.clipart.email/efeb18889042260666cc56a02f90dd9e_basketball-net-vector-clipart-library-free-clipart-images-_1331-964.png'}}>
+                </Image>
             </View>
         )
     }
@@ -264,7 +264,7 @@ class Play extends React.PureComponent{
                 
                 {/* basket and floor */}
                 <Image style = {{ alignSelf:'center', height:170,width:250, marginTop:70, marginRight:80}} source = {require('./assets/court.jpg')}/>
-                <View style = {{height:220, width:20, alignSelf:'center', backgroundColor:'black', marginRight:80}}/>
+                <View style = {{height:220, width:20, alignSelf:'center', backgroundColor:'gray', marginRight:80}}/>
                 {this.getBasketRing()}
                 <View style = {{backgroundColor:'black', height:2, width:450}}></View>
                
