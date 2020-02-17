@@ -11,7 +11,6 @@ import {
     ImageBackground,
     Platform,
     ToastAndroid,
-    AlertIOS,
     Image
 } from 'react-native'
 import {
@@ -38,7 +37,7 @@ class Play extends React.PureComponent{
           }
         
         this.state = {
-            timer:30,
+            timer:this.props.timer,
             score: 0,
             animator: new Animated.Value(0),
             panX: new Animated.Value(middle),
@@ -88,7 +87,7 @@ class Play extends React.PureComponent{
                 ToastAndroid.show('Press again to exit game', ToastAndroid.SHORT)
             } 
             else{
-                AlertIOS.alert('Press again to exit game');
+                alert('Press again to exit game');
             }
             this.backCount = 1
             setTimeout(()=>{this.backCount = 0},2000)
@@ -150,7 +149,7 @@ class Play extends React.PureComponent{
                 <Image style = {{
                     borderRadius:10, height:calculateBasketHeight(this.props.basketRadius),width:calculateBasketRadius(this.props.basketRadius),
                     marginRight:80
-                    }} source = {{uri:'https://cdn.clipart.email/efeb18889042260666cc56a02f90dd9e_basketball-net-vector-clipart-library-free-clipart-images-_1331-964.png'}}>
+                    }} source = {require('./assets/net.png')}>
                 </Image>
             </View>
         )
@@ -166,7 +165,12 @@ class Play extends React.PureComponent{
                 }}
                 onPress = {()=>{
                         if(Math.abs(this.state.prevX-this.state.currentX)<10){
-                            alert('Cannot shoot from same place')
+                            if (Platform.OS === 'android'){
+                                ToastAndroid.show('Cannot shoot from same place', ToastAndroid.SHORT)
+                            } 
+                            else{
+                                alert('Cannot shoot from same place');
+                            }
                         }
                         else
                             this.shoot()

@@ -25,7 +25,7 @@ class Scoreboard extends React.PureComponent{
         didBlurSubscription = this.props.navigation.addListener(
             'willFocus',
             payload => {
-                this.props.dispatch({type:'sortByScores'})
+                this.props.dispatch({type:'clearListScore'})
                 this.listData = []
                 this.setState({numberOfItemsInList: 0})
                 this.getListData()
@@ -34,10 +34,10 @@ class Scoreboard extends React.PureComponent{
     }
 
     componentDidUpdate(prevProps, prevState, snapshot){
-        // update after sorting
-        if(prevProps!=this.props){
-            this.listData = []
-            this.setState({numberOfItemsInList: 0},()=>{this.getListData()})    
+        
+        if(prevProps.choppedData!=this.props.choppedData){
+            this.listData = this.listData.concat(...this.props.choppedData)
+            this.setState({numberOfItemsInList:(this.state.numberOfItemsInList+1)%100})
         }
 
     }
@@ -47,26 +47,13 @@ class Scoreboard extends React.PureComponent{
     }
 
     getListData = ()=>{
-        if(this.state.numberOfItemsInList+15 < this.props.data.length){
-            this.listData = this.listData.concat(
-                this.props.data.slice(this.state.numberOfItemsInList, this.state.numberOfItemsInList+15)
-            )
-            this.setState({numberOfItemsInList: this.state.numberOfItemsInList+15})
-        }
-        else if(this.state.numberOfItemsInList == this.props.data.length){
-        }
-        else{
-            this.listData = this.listData.concat(
-                this.props.data.slice(this.state.numberOfItemsInList, this.props.data.length)
-            )
-            this.setState({numberOfItemsInList: this.props.data.length})
-        }
+        this.props.dispatch({type:'getNewData'})
     }
 
     getNumberOfContents = ()=>{
         return(
             <View style = {{width:450,height:40, backgroundColor:'gray'}}>
-                <Text style = {{alignSelf:'center', fontSize:25}}>{'Displaying: '+this.listData.length+' / '+this.props.data.length}</Text>
+                <Text style = {{alignSelf:'center', fontSize:25}}>{'Displaying: '+this.listData.length+' / '+this.props.totalDataCount}</Text>
             </View>
         )
     }
@@ -85,16 +72,22 @@ class Scoreboard extends React.PureComponent{
     onPressScoreCallback = ()=>{
         this.setState({buttonColors:['gray','silver','gray']})
         this.props.dispatch({type:'sortByScores'})
+        this.listData = []
+        this.props.dispatch({type:'getNewData'})
     }
 
     onPressDateCallback = ()=>{
         this.setState({buttonColors:['gray','gray','silver']})
         this.props.dispatch({type:'sortByDate'})
+        this.listData = []
+        this.props.dispatch({type:'getNewData'})
     }
 
     onPressNameCallback = ()=>{
         this.setState({buttonColors:['silver','gray','gray']})
         this.props.dispatch({type:'sortByName'})
+        this.listData = []
+        this.props.dispatch({type:'getNewData'})
     }
 
     getList = ()=>{
@@ -104,9 +97,9 @@ class Scoreboard extends React.PureComponent{
                 <FlatList 
                     
                     data = {this.listData} 
-                    extraData = {this.props.sortType,this.props.sortingOrder,this.state.numberOfItemsInList}
+                    extraData = {this.state.numberOfItemsInList}
                     showsVerticalScrollIndicator = {false}
-                    
+                    ref={(ref) => { this.flatListRef = ref }}
                     renderItem = {({item})=>{
                         return(
                             <View>
@@ -151,7 +144,6 @@ class Scoreboard extends React.PureComponent{
     }
     
     render(){
-
         return(
             <View style = {{flex:1, backgroundColor:'gray'}}>
                 {/* count of items displayed*/}
@@ -179,9 +171,8 @@ class Scoreboard extends React.PureComponent{
 
 const mapStateToProps = state => {
     return {
-        sortType: state.ScoreReducer.sortType,
-        data: state.ScoreReducer.scoreObject.scores,
-        sortingOrder: state.ScoreReducer.scoreObject.type
+        totalDataCount:state.ScoreReducer.scoreObject.scores.length ,
+        choppedData: state.ScoreReducer.scoreObject.listScore
     }
 }
 

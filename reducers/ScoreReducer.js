@@ -2,6 +2,7 @@ const initialScores = {
     sortType:'null',
     scoreObject: {
       type: 'desc',
+      numberInList:0,
       scores: [
           {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
           {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
@@ -33,7 +34,8 @@ const initialScores = {
           {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
           {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
           {name:'Kanav', score:10, unixTime:'1580994648', dateAndTime:'06-02-2020/18:40:48'},
-      ]
+      ],
+      listScore:[]
     }
 }
 
@@ -73,7 +75,7 @@ sortByScores = (state)=>{
     }
     tempState.sortType = 'sortedOnScores'
     tempState.scoreObject.scores = scores
-    return tempState
+    return clearList(tempState)
 }
 
 sortByDate = (state)=>{
@@ -96,7 +98,7 @@ sortByDate = (state)=>{
     }
     tempState.sortType = 'sortedOnDate'
     tempState.scoreObject.scores = scores
-    return tempState
+    return clearList(tempState)
 }
 
 sortByName = (state)=>{
@@ -119,12 +121,35 @@ sortByName = (state)=>{
     }
     tempState.sortType = 'sortedOnName'
     tempState.scoreObject.scores = scores
-    return tempState
+    return clearList(tempState)
 }
 
 saveScore = (state, scoreObject)=>{
     tempState = {...state}
     tempState.scoreObject.scores.push(scoreObject)
+    return tempState
+}
+
+clearList = (state)=>{
+    tempState = {...state}
+    tempState.scoreObject.numberInList = 0
+    tempState.scoreObject.listScore = []
+    return tempState
+}
+
+getData = (state)=>{
+    tempState = {...state}
+    numberInList = state.scoreObject.numberInList
+    if(numberInList + 15 < state.scoreObject.scores.length){
+        tempState.scoreObject.listScore = tempState.scoreObject.scores.slice(numberInList, numberInList+15)
+        
+        tempState.scoreObject.numberInList += 15
+    }
+    else if(numberInList + 15 == state.scoreObject.scores.length){}
+    else{
+        tempState.scoreObject.listScore = tempState.scoreObject.scores.slice(numberInList, tempState.scoreObject.scores.length)
+        tempState.scoreObject.numberInList = state.scoreObject.scores.length
+    }
     return tempState
 }
 
@@ -138,6 +163,10 @@ export default function scoreReducer(state = initialScores, action){
             return sortByName(state)
         case 'saveScore':
             return saveScore(state, action.payLoad)
+        case 'getNewData':
+            return getData(state)
+        case 'clearListScore':
+            return clearList(state)
     } 
     return state;
   }

@@ -3,6 +3,7 @@ export const initialSettings = {
     ballSpeed: 2,
     ballRadius: 3,
     basketRadius: 3,
+    timer: 30,
 }
 
 export default function saveReducer(state = initialSettings, action) {

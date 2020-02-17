@@ -8,7 +8,6 @@ import {
     BackHandler,
     ToastAndroid,
     Platform,
-    AlertIOS,
   } from 'react-native';
   
 export default class Home extends React.PureComponent{
@@ -66,7 +65,7 @@ export default class Home extends React.PureComponent{
                 ToastAndroid.show('Press again to exit app', ToastAndroid.SHORT)
             } 
             else{
-                AlertIOS.alert('Press again to exit app');
+                alert('Press again to exit app');
             }
             this.backCounter = 1
             setTimeout(()=>{this.backCounter = 0},2000)

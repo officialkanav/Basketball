@@ -18,6 +18,7 @@ class Settings extends React.PureComponent{
             ballRadius:null,
             speed:null,
             basketRadius:null,
+            timer: null
         }
     }
 
@@ -31,6 +32,7 @@ class Settings extends React.PureComponent{
             ballRadius:this.props.ballRadius,
             speed:this.props.ballSpeed,
             basketRadius:this.props.basketRadius,
+            timer: this.props.timer
         })
     }
 
@@ -40,6 +42,7 @@ class Settings extends React.PureComponent{
             ballSpeed: this.state.speed,
             ballRadius: this.state.ballRadius,
             basketRadius: this.state.basketRadius,
+            timer: this.state.timer
         }
         action = {type: 'saveSettings', payLoad: newSettings}
         this.props.dispatch(action)
@@ -52,6 +55,7 @@ class Settings extends React.PureComponent{
             speed: initialSettings.ballSpeed,
             ballRadius: initialSettings.ballRadius,
             basketRadius: initialSettings.basketRadius,
+            timer: initialSettings.timer
         }
         this.setState({...restoredSettings})
         let action = {type: 'resetSettings'}
@@ -75,7 +79,7 @@ class Settings extends React.PureComponent{
                     {value: 'orange'},{value: 'black'},{value: 'yellow'}];
       
         return(
-            <View style = {{marginTop:50}}>
+            <View style = {{marginTop:30}}>
                 <Dropdown
                     label='Ball Color'
                     itemCount = {3}
@@ -89,7 +93,7 @@ class Settings extends React.PureComponent{
 
     setBallRadius = ()=>{
         return(
-            <View style = {{marginTop:85,flexDirection:'row'}}>
+            <View style = {{marginTop:70,flexDirection:'row'}}>
                 <Text style = {{fontSize:20}}>ballRadius: </Text>
                 <Slider
                     step={0.1}
@@ -113,7 +117,7 @@ class Settings extends React.PureComponent{
 
     setBallSpeed = ()=>{
         return(
-            <View style = {{flexDirection:'row', marginTop:85}}>
+            <View style = {{flexDirection:'row', marginTop:70}}>
                 <Text style = {{fontSize:20}}>Speed: </Text>
                 <TouchableOpacity style = {{marginLeft:110}} onPress = {()=>{this.setState({speed:(this.state.speed-1)>0?this.state.speed-1:1})}}>
                     <Text style = {{fontSize:40}}> -  </Text>
@@ -128,7 +132,7 @@ class Settings extends React.PureComponent{
 
     setBasketRadius = ()=>{
        return(
-            <View style = {{flexDirection:'row', marginTop:85}}>
+            <View style = {{flexDirection:'row', marginTop:70}}>
                 <Text style = {{fontSize:20}}>basketRadius: </Text>
                 <Slider
                     step={0.1}
@@ -152,9 +156,30 @@ class Settings extends React.PureComponent{
             )
     }
 
+    setTimer = ()=>{
+        return(
+            <View style = {{flexDirection:'row', marginTop:70}}>
+                <Text style = {{fontSize:20}}>Timer: </Text>
+                <Slider
+                    step={5}
+                    minimumValue={5}
+                    maximumValue={60}
+                    minimumTrackTintColor="#307ecc"
+                    maximumTrackTintColor="#000000"
+                    onValueChange={(value)=>{
+                        this.setState({timer:value})
+                        }}
+                    value={this.state.timer}
+                    style = {{flex:1}}
+                    />
+                <Text style = {{fontSize:30}}>{this.state.timer}</Text>
+            </View>
+        )
+    }
+
     getSaveButton = ()=>{
         return(
-            <View style = {{alignSelf:'center', marginTop:100}}>
+            <View style = {{alignSelf:'center', marginTop:70}}>
                 <TouchableOpacity style = {{backgroundColor:'silver'}}
                     onPress = {this.saveSettings}>
                     <Text style = {{fontSize:35, color:'black'}}>Save</Text>
@@ -181,6 +206,9 @@ class Settings extends React.PureComponent{
 
                 {/* basketRadius */}
                 {this.setBasketRadius()}
+
+                {/* timer */}
+                {this.setTimer()}
 
                 {/* save */}
                 {this.getSaveButton()}
