@@ -61,7 +61,6 @@ export default class Home extends React.PureComponent{
                 this.setState({disableButtons:true})
             }
             if(state.isConnected){
-                console.log('hi')
                 this.setState({disableButtons:false})
             }
         })
