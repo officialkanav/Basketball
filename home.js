@@ -9,12 +9,12 @@ import {
     ToastAndroid,
     Platform,
   } from 'react-native';
-  
+import NetInfo from "@react-native-community/netinfo";
 export default class Home extends React.PureComponent{
     constructor(props){
         super(props)
         this.state = {
-
+            disableButtons:false
         }
         this.backCounter = 0
     }
@@ -48,7 +48,24 @@ export default class Home extends React.PureComponent{
     
     componentDidMount(){
         this.props.navigation.setParams({handleBackButtonClick: this.handleBackButtonClick})
-    
+
+        const unsubscribe = NetInfo.addEventListener(state => {
+            if(!state.isConnected){
+                if (Platform.OS === 'android'){
+                    ToastAndroid.show('Connect to internet', ToastAndroid.SHORT)
+                } 
+                else{
+                    alert('Connect to internet');
+                }
+                this.props.navigation.navigate('Dashboard')
+                this.setState({disableButtons:true})
+            }
+            if(state.isConnected){
+                console.log('hi')
+                this.setState({disableButtons:false})
+            }
+        })
+        
         didBlurSubscription = this.props.navigation.addListener(
             'willFocus',
             payload => {
@@ -79,7 +96,8 @@ export default class Home extends React.PureComponent{
         return(
             <TouchableOpacity style = {{borderRadius:30,width:150,height:50,backgroundColor:'black', 
                 alignItems:'center', justifyContent:'center'}} 
-                onPress = {()=>{BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick); this.props.navigation.push(text)}}>
+                onPress = {()=>{BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick); this.props.navigation.push(text)}}
+                disabled = {this.state.disableButtons}>
                 <Text style = {{color:'white',fontSize:20,fontWeight:'500',textAlign:'center'}}>
                     {text}
                 </Text>     
