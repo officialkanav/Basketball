@@ -57,18 +57,24 @@ class Play extends React.PureComponent{
             onStartShouldSetPanResponderCapture: (evt, gestureState) => this.state.enablePanResponder,
             onMoveShouldSetPanResponder: (evt, gestureState) => this.state.enablePanResponder,
             onMoveShouldSetPanResponderCapture: (evt, gestureState) => this.state.enablePanResponder,
+           
             onPanResponderMove: (evt, gestureState) =>{
                 const rightBoundaryLimit = interpolateRightBoundary(this.props.ballRadius) * middle
-
-                if(gestureState.moveX<rightBoundaryLimit)
-                    this.state.panX.setValue(gestureState.moveX)
+                let newX = this.state.currentX + gestureState.dx
+                if(newX<0)
+                    newX = 0;
+                if(newX<rightBoundaryLimit)
+                    this.state.panX.setValue(newX)
                 else
                     this.state.panX.setValue(rightBoundaryLimit)
             },
             onPanResponderRelease: (evt, gestureState) => {
                 const rightBoundaryLimit = interpolateRightBoundary(this.props.ballRadius) * middle
-                if(gestureState.moveX<rightBoundaryLimit)
-                    this.setState({currentX:gestureState.moveX})
+                let newX = this.state.currentX + gestureState.dx
+                if(newX<0)
+                    newX = 0
+                if(newX<rightBoundaryLimit)
+                    this.setState({currentX:newX})
                 else
                     this.setState({currentX:rightBoundaryLimit})
             },
